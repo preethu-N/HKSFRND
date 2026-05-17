@@ -131,7 +131,7 @@ const Home = () => {
               <div
                 key={index}
                 onClick={() => setCurrent(index)}
-                className={`w-3 h-3 rounded-full cursor-pointer transition-all duration-300 ${
+                className={` rounded-full cursor-pointer transition-all duration-300 ${
                   current === index
                     ? "bg-green-400"
                     : "bg-gray-500"
