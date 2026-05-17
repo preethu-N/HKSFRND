@@ -96,11 +96,6 @@ const Home = () => {
         {/* Content */}
         <div className="relative z-10">
 
-          {/* BACKEND MESSAGE */}
-          <p className="text-emerald-400 font-semibold mb-4">
-            {message}
-          </p>
-
           <p className="text-green-400 tracking-widest mb-7">
             PREMIUM ENVIRONMENT CARE
           </p>
@@ -136,7 +131,7 @@ const Home = () => {
               <div
                 key={index}
                 onClick={() => setCurrent(index)}
-                className={`rounded-full cursor-pointer w-3 h-3 ${
+                className={`rounded-full cursor-pointer${
                   current === index
                     ? "bg-green-400"
                     : "bg-gray-500"
