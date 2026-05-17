@@ -17,7 +17,7 @@ const History = () => {
         setLoading(true);
 
         const response = await fetch(
-         " https://preethu17.pythonanywhere.com/api/history/",
+          "https://preethu17.pythonanywhere.com/api/history/",
         );
 
         const data = await response.json();
@@ -43,16 +43,17 @@ const History = () => {
   }, []);
 
   return (
-    <div className="p-6 bg-black text-white min-h-screen">
+
+    <div className="p-3 sm:p-6 bg-black text-white min-h-screen">
 
       {/* NAVBAR / HEADER */}
       <div className="mb-6">
 
-        <h1 className="text-2xl font-bold">
+        <h1 className="text-xl sm:text-2xl font-bold">
           History
         </h1>
 
-        <p className="text-gray-400 text-sm">
+        <p className="text-gray-400 text-xs sm:text-sm">
           Track all your past waste
           collection activities
         </p>
@@ -60,36 +61,36 @@ const History = () => {
       </div>
 
       {/* TABLE */}
-      <div className="bg-gray-900 rounded-xl overflow-hidden">
+      <div className="bg-gray-900 rounded-xl overflow-x-auto">
 
-        <table className="w-full text-left">
+        <table className="w-full min-w-700px text-left">
 
           {/* TABLE HEADER */}
-          <thead className="bg-gray-800 text-gray-400 text-sm">
+          <thead className="bg-gray-800 text-gray-400 text-xs sm:text-sm">
 
             <tr>
 
-              <th className="p-3">
+              <th className="p-2 sm:p-3">
                 ID
               </th>
 
-              <th className="p-3">
+              <th className="p-2 sm:p-3">
                 Type
               </th>
 
-              <th className="p-3">
+              <th className="p-2 sm:p-3">
                 Date
               </th>
 
-              <th className="p-3">
+              <th className="p-2 sm:p-3">
                 Status
               </th>
 
-              <th className="p-3">
+              <th className="p-2 sm:p-3">
                 Payment
               </th>
 
-              <th className="p-3">
+              <th className="p-2 sm:p-3">
                 Action
               </th>
 
@@ -105,7 +106,7 @@ const History = () => {
               <tr>
                 <td
                   colSpan="6"
-                  className="p-6 text-center text-gray-400"
+                  className="p-4 sm:p-6 text-center text-gray-400 text-sm"
                 >
                   Loading history...
                 </td>
@@ -116,7 +117,7 @@ const History = () => {
               <tr>
                 <td
                   colSpan="6"
-                  className="p-6 text-center text-gray-400"
+                  className="p-4 sm:p-6 text-center text-gray-400 text-sm"
                 >
                   No history found
                 </td>
@@ -128,33 +129,32 @@ const History = () => {
 
                 <tr
                   key={item.id}
-                  className="border-b border-gray-800"
+                  className="border-b border-gray-800 text-xs sm:text-sm"
                 >
 
                   {/* ID */}
-                  <td className="p-3">
+                  <td className="p-2 sm:p-3 whitespace-nowrap">
                     #{item.id}
                   </td>
 
                   {/* TYPE */}
-                  <td className="p-3">
+                  <td className="p-2 sm:p-3 whitespace-nowrap">
                     {item.type}
                   </td>
 
                   {/* DATE */}
-                  <td className="p-3">
+                  <td className="p-2 sm:p-3 whitespace-nowrap">
                     {item.date}
                   </td>
 
                   {/* STATUS */}
-                  <td className="p-3">
+                  <td className="p-2 sm:p-3">
 
                     <span
-                      className={`px-2 py-1 text-xs rounded ${
+                      className={`px-2 py-1 text-[10px] sm:text-xs rounded whitespace-nowrap ${
                         item.status === "PAID"
                           ? "bg-green-600"
-                          : item.status ===
-                            "PENDING"
+                          : item.status === "PENDING"
                           ? "bg-yellow-600"
                           : "bg-blue-600"
                       }`}
@@ -165,17 +165,17 @@ const History = () => {
                   </td>
 
                   {/* PAYMENT */}
-                  <td className="p-3">
+                  <td className="p-2 sm:p-3 whitespace-nowrap">
 
                     {item.status === "PAID" ? (
 
-                      <span className="text-green-400 text-sm">
+                      <span className="text-green-400 text-xs sm:text-sm">
                         PAID
                       </span>
 
                     ) : (
 
-                      <span className="text-red-400 text-sm">
+                      <span className="text-red-400 text-xs sm:text-sm">
                         PENDING
                       </span>
 
@@ -184,9 +184,9 @@ const History = () => {
                   </td>
 
                   {/* ACTION */}
-                  <td className="p-3">
+                  <td className="p-2 sm:p-3 whitespace-nowrap">
 
-                    <button className="text-emerald-400 text-sm">
+                    <button className="text-emerald-400 text-xs sm:text-sm hover:underline">
                       View Details
                     </button>
 

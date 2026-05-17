@@ -129,12 +129,12 @@ const AdminDashboard = () => {
   );
 
   return (
-    <div className="min-h-screen bg-black text-white">
+    <div className="min-h-screen bg-black text-white overflow-x-hidden">
 
       {/* NAVBAR */}
-      <div className="flex items-center justify-between px-10 py-7 border-b border-[#062b24]">
+      <div className="flex flex-col gap-4 md:flex-row md:items-center md:justify-between px-5 md:px-10 py-7 border-b border-[#062b24]">
 
-        <h1 className="text-4xl font-bold">
+        <h1 className="text-3xl md:text-4xl font-bold">
           ECO<span className="text-[#00d084]">COLLECT</span>
         </h1>
 
@@ -156,11 +156,11 @@ const AdminDashboard = () => {
       <div className="px-5 md:px-10 py-10">
 
         {/* TABS */}
-        <div className="flex gap-3 mb-10">
+        <div className="flex flex-wrap gap-3 mb-10">
 
           <button
             onClick={() => setActiveTab("users")}
-            className={`px-6 py-3 rounded-full ${
+            className={`flex-1 min-w-28 text-center px-6 py-3 rounded-full ${
               activeTab === "users"
                 ? "bg-[#00d084] text-black"
                 : "bg-[#071311]"
@@ -171,7 +171,7 @@ const AdminDashboard = () => {
 
           <button
             onClick={() => setActiveTab("bookings")}
-            className={`px-6 py-3 rounded-full ${
+            className={`flex-1 min-w-28 text-center px-6 py-3 rounded-full ${
               activeTab === "bookings"
                 ? "bg-[#00d084] text-black"
                 : "bg-[#071311]"
@@ -182,7 +182,7 @@ const AdminDashboard = () => {
 
           <button
             onClick={() => setActiveTab("complaints")}
-            className={`px-6 py-3 rounded-full ${
+            className={`flex-1 min-w-28 text-center px-6 py-3 rounded-full ${
               activeTab === "complaints"
                 ? "bg-[#00d084] text-black"
                 : "bg-[#071311]"
@@ -195,18 +195,18 @@ const AdminDashboard = () => {
 
         {/* USERS */}
         {activeTab === "users" && (
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+          <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 gap-8">
 
             {users.map((user) => (
               <div
                 key={user.id}
-                className="border border-[#062b24] p-8 rounded-3xl"
+                className="border border-[#062b24] p-6 sm:p-8 rounded-3xl flex flex-col gap-4 w-full"
               >
-                <h2 className="text-3xl font-bold">{user.name}</h2>
-                <p className="text-gray-400 mt-3">{user.email}</p>
+                <h2 className="text-2xl sm:text-3xl font-bold">{user.name}</h2>
+                <p className="text-gray-400 ">{user.email}</p>
 
-                <div className="mt-5">
-                  <span className="bg-[#071311] px-4 py-2 rounded-full text-[#00d084]">
+                <div className="mt-3">
+                  <span className="bg-[#071311] px-4 py-2 rounded-full text-[#00d084] text-sm">
                     {user.role}
                   </span>
                 </div>
@@ -219,8 +219,8 @@ const AdminDashboard = () => {
         {activeTab === "bookings" && (
           <div className="bg-[#030707] rounded-3xl border border-[#062b24] overflow-hidden">
 
-            <div className="p-8 border-b border-[#062b24] flex items-center justify-between gap-3">
-              <div className="flex items-center gap-3 flex-1">
+            <div className="p-6 md:p-8 border-b border-[#062b24] flex flex-col gap-4 md:flex-row md:items-center md:justify-between">
+              <div className="flex items-center gap-3 flex-1 min-w-0 bg-[#071311] rounded-full px-4 py-3">
                 <Search size={20} />
 
                 <input
@@ -228,14 +228,14 @@ const AdminDashboard = () => {
                   placeholder="Search..."
                   value={search}
                   onChange={(e) => setSearch(e.target.value)}
-                  className="bg-transparent outline-none w-full"
+                  className="bg-transparent outline-none w-full text-sm"
                 />
               </div>
 
               <button
                 onClick={fetchBookings}
                 disabled={loadingBookings}
-                className="flex items-center gap-2 px-4 py-2 bg-[#00d084] text-black rounded-full hover:bg-[#00c978] transition disabled:opacity-50"
+                className="flex items-center justify-center gap-2 px-4 py-3 bg-[#00d084] text-black rounded-full hover:bg-[#00c978] transition disabled:opacity-50 w-full md:w-auto"
               >
                 <RefreshCw size={16} className={loadingBookings ? "animate-spin" : ""} />
                 Refresh
@@ -250,31 +250,39 @@ const AdminDashboard = () => {
               filteredBookings.map((booking) => (
                 <div
                   key={booking.id}
-                  className="grid md:grid-cols-5 gap-5 p-8 border-b border-[#071311]"
+                  className="grid grid-cols-1 md:grid-cols-5 gap-5 p-6 md:p-8 border-b border-[#071311]"
                 >
-                  <div>
-                    <p className="font-bold">{booking.user}</p>
+                  <div className="space-y-2">
+                    <p className="text-gray-400 text-xs uppercase tracking-[0.2em] md:hidden">User</p>
+                    <p className="font-bold ">{booking.user}</p>
                     <p className="text-gray-500 text-sm">ID: {booking.id}</p>
                   </div>
-                  <div>{booking.type}</div>
-                  <div>{booking.address}</div>
-                  <div>
-                    <span className="px-3 py-1 bg-yellow-900/40 text-yellow-400 rounded-full text-sm">
+                  <div className="space-y-2">
+                    <p className="text-gray-400 text-xs uppercase tracking-[0.2em] md:hidden">Type</p>
+                    <p>{booking.type}</p>
+                  </div>
+                  <div className="space-y-2">
+                    <p className="text-gray-400 text-xs uppercase tracking-[0.2em] md:hidden">Address</p>
+                    <p className="">{booking.address}</p>
+                  </div>
+                  <div className="space-y-2">
+                    <p className="text-gray-400 text-xs uppercase tracking-[0.2em] md:hidden">Status</p>
+                    <span className="inline-flex px-3 py-1 bg-yellow-900/40 text-yellow-400 rounded-full text-sm">
                       {booking.status?.toUpperCase()}
                     </span>
                   </div>
 
-                  <div className="flex gap-3">
+                  <div className="flex flex-wrap gap-3 justify-start md:justify-end">
                     <button
                       onClick={() => approveBooking(booking.id)}
-                      className="bg-green-900 p-3 rounded-xl hover:bg-green-800 transition"
+                      className="bg-green-900 p-3 rounded-xl hover:bg-green-800 transition flex-1 md:flex-none"
                     >
                       <Check size={18} />
                     </button>
 
                     <button
                       onClick={() => rejectBooking(booking.id)}
-                      className="bg-red-900 p-3 rounded-xl hover:bg-red-800 transition"
+                      className="bg-red-900 p-3 rounded-xl hover:bg-red-800 transition flex-1 md:flex-none"
                     >
                       <X size={18} />
                     </button>
@@ -292,24 +300,36 @@ const AdminDashboard = () => {
             {complaints.map((complaint) => (
               <div
                 key={complaint.id}
-                className="grid md:grid-cols-5 gap-5 p-8 border-b border-[#071311]"
+                className="grid grid-cols-1 md:grid-cols-5 gap-5 p-6 md:p-8 border-b border-[#071311]"
               >
-                <div>{complaint.user}</div>
-                <div>{complaint.subject}</div>
-                <div>{complaint.message}</div>
-                <div>{complaint.status}</div>
+                <div className="space-y-2">
+                  <p className="text-gray-400 text-xs uppercase tracking-[0.2em] md:hidden">User</p>
+                  <p className="">{complaint.user}</p>
+                </div>
+                <div className="space-y-2">
+                  <p className="text-gray-400 text-xs uppercase tracking-[0.2em] md:hidden">Subject</p>
+                  <p className="">{complaint.subject}</p>
+                </div>
+                <div className="space-y-2">
+                  <p className="text-gray-400 text-xs uppercase tracking-[0.2em] md:hidden">Message</p>
+                  <p className="">{complaint.message}</p>
+                </div>
+                <div className="space-y-2">
+                  <p className="text-gray-400 text-xs uppercase tracking-[0.2em] md:hidden">Status</p>
+                  <p>{complaint.status}</p>
+                </div>
 
-                <div className="flex gap-3">
+                <div className="flex flex-wrap gap-3 justify-start md:justify-end">
                   <button
                     onClick={() => resolveComplaint(complaint.id)}
-                    className="bg-green-900 px-4 py-2 rounded-xl"
+                    className="bg-green-900 px-4 py-2 rounded-xl flex-1 md:flex-none text-center"
                   >
                     Resolve
                   </button>
 
                   <button
                     onClick={() => deleteComplaint(complaint.id)}
-                    className="bg-red-900 px-4 py-2 rounded-xl"
+                    className="bg-red-900 px-4 py-2 rounded-xl flex-1 md:flex-none text-center"
                   >
                     Delete
                   </button>

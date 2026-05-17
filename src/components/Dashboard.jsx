@@ -6,7 +6,7 @@ import History from "./History";
 import { Link, useNavigate } from "react-router-dom";
 
 const Card = ({ title, value }) => (
-  <div className="bg-gray-900 p-4 rounded-xl">
+  <div className="bg-gray-900 p-4 rounded-xl w-full">
     <h2 className="text-gray-400 text-sm mb-2">{title}</h2>
     <p className="text-2xl font-bold">{value}</p>
   </div>
@@ -47,6 +47,7 @@ const Dashboard = () => {
     const fetchDashboardData = async () => {
       try {
         const token = localStorage.getItem("access");
+
         if (!token) {
           localStorage.removeItem("user");
           navigate("/login");
@@ -54,7 +55,7 @@ const Dashboard = () => {
         }
 
         const response = await fetch(
-          "http://127.0.0.1:8000/api/dasboardwaste/",
+          "https://preethu17.pythonanywhere.com/api/dashboard/",
           {
             headers: {
               Authorization: `Bearer ${token}`,
@@ -69,6 +70,7 @@ const Dashboard = () => {
             navigate("/login");
             return;
           }
+
           throw new Error("Dashboard API request failed");
         }
 
@@ -88,7 +90,7 @@ const Dashboard = () => {
     };
 
     fetchDashboardData();
-  }, []);
+  }, [navigate]);
 
   // ================= LOGOUT =================
   const handleLogout = () => {
@@ -118,23 +120,24 @@ const Dashboard = () => {
   };
 
   return (
-    <div className="p-6 bg-black text-white min-h-screen">
+    <div className="p-3 sm:p-6 bg-black text-white min-h-screen overflow-x-hidden">
 
       {/* HEADER */}
-      <div className="flex justify-between items-center mb-10 mt-20">
+      <div className="flex flex-col lg:flex-row lg:justify-between lg:items-center gap-6 mb-10 mt-20">
+
         <div>
-          <h1 className="text-3xl font-bold">
+          <h1 className="text-2xl sm:text-3xl font-bold break-all">
             Welcome, {user || "User"}
           </h1>
         </div>
 
-        <div className="flex gap-3">
+        <div className="flex flex-wrap gap-3">
           {["OVERVIEW", "REQUEST", "HISTORY", "PAYMENT", "FEEDBACK"].map(
             (tab) => (
               <button
                 key={tab}
                 onClick={() => setActiveTab(tab)}
-                className={`px-4 py-2 rounded-full ${
+                className={`px-4 py-2 rounded-full text-sm sm:text-base transition-all duration-200 ${
                   activeTab === tab
                     ? "bg-emerald-500 text-black"
                     : "bg-gray-800"
@@ -147,7 +150,7 @@ const Dashboard = () => {
 
           <button
             onClick={handleLogout}
-            className="bg-red-600 px-4 py-2 rounded-full"
+            className="bg-red-600 px-4 py-2 rounded-full text-sm sm:text-base"
           >
             Logout
           </button>
@@ -157,44 +160,62 @@ const Dashboard = () => {
       {/* OVERVIEW */}
       {activeTab === "OVERVIEW" && (
         <>
-          <div className="grid grid-cols-4 gap-4 mb-6">
+          {/* STATS */}
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 mb-6">
             <Card title="TOTAL" value={stats.total} />
             <Card title="PENDING" value={stats.pending} />
             <Card title="COMPLETED" value={stats.completed} />
             <Card title="POINTS" value={stats.points} />
           </div>
 
-          <div className="bg-gray-900 p-4 rounded-xl">
-            <h2 className="mb-4">Recent Activity</h2>
+          {/* RECENT ACTIVITY */}
+          <div className="bg-gray-900 p-4 rounded-xl w-full overflow-hidden">
+            <h2 className="mb-4 text-lg font-semibold">
+              Recent Activity
+            </h2>
 
             {activities.length === 0 ? (
               <p className="text-gray-400">No activity found</p>
             ) : (
-              activities.map((item, index) => (
-                <div
-                  key={index}
-                  className="bg-black p-3 mb-2 rounded flex justify-between"
-                >
-                  <div>
-                    <h3>{item.type || "Request"}</h3>
-                    <p className="text-gray-400 text-sm">
-                      {item.date || ""}
-                    </p>
-                  </div>
+              <div className="space-y-3">
+                {activities.map((item, index) => (
+                  <div
+                    key={index}
+                    className="bg-black p-3 rounded flex flex-col sm:flex-row sm:justify-between sm:items-center gap-3"
+                  >
+                    <div className="break-all">
+                      <h3 className="font-medium">
+                        {item.type || "Request"}
+                      </h3>
 
-                  <span className="text-xs px-2 py-1 bg-gray-700 rounded">
-                    {item.status || "PENDING"}
-                  </span>
-                </div>
-              ))
+                      <p className="text-gray-400 text-sm">
+                        {item.date || ""}
+                      </p>
+                    </div>
+
+                    <span className="text-xs px-3 py-1 bg-gray-700 rounded w-fit">
+                      {item.status || "PENDING"}
+                    </span>
+                  </div>
+                ))}
+              </div>
             )}
           </div>
         </>
       )}
 
-      {activeTab === "REQUEST" && <Request addRequest={addRequest} />}
-      {activeTab === "HISTORY" && <History activities={activities} />}
-      {activeTab === "PAYMENT" && <Payment addPayment={addPayment} />}
+      {activeTab === "REQUEST" && (
+        <Request addRequest={addRequest} />
+      )}
+
+      {activeTab === "HISTORY" && (
+        <History activities={activities} />
+      )}
+
+      {activeTab === "PAYMENT" && (
+        <Payment addPayment={addPayment} />
+      )}
+
       {activeTab === "FEEDBACK" && <Feedback />}
     </div>
   );

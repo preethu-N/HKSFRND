@@ -76,11 +76,11 @@ const Home = () => {
   }, []);
 
   return (
-    <div className="bg-black text-white">
+    <div className="bg-black text-white overflow-hidden">
 
       {/* HERO SECTION */}
       <div
-        className="h-screen flex items-center px-20 relative"
+        className="min-h-screen flex items-center px-5 sm:px-10 lg:px-20 relative"
         style={{
           backgroundImage: slides[current].img
             ? `url(${slides[current].img})`
@@ -94,25 +94,25 @@ const Home = () => {
         <div className="absolute inset-0 bg-black/70"></div>
 
         {/* Content */}
-        <div className="relative z-10">
+        <div className="relative z-10 w-full max-w-3xl">
 
-          <p className="text-green-400 tracking-widest mb-7">
+          <p className="text-green-400 tracking-widest mb-4 sm:mb-7 text-sm sm:text-base">
             PREMIUM ENVIRONMENT CARE
           </p>
 
-          <h1 className="text-6xl font-bold">
+          <h1 className="text-3xl sm:text-5xl lg:text-6xl font-bold leading-tight">
             {slides[current].title}
           </h1>
 
-          <p className="text-gray-300 mt-7 max-w-xl">
+          <p className="text-gray-300 mt-5 sm:mt-7 max-w-xl text-sm sm:text-base">
             {slides[current].desc}
           </p>
 
-          <div className="mt-18 flex gap-4">
+          <div className="mt-10 sm:mt-14 flex flex-col sm:flex-row gap-4">
 
             <Link
               to="/sign"
-              className="bg-emerald-500 text-black font-bold px-6 py-3 rounded-full"
+              className="bg-emerald-500 text-black font-bold px-6 py-3 rounded-full text-center"
             >
               Get Started
             </Link>
@@ -124,14 +124,14 @@ const Home = () => {
           </div>
 
           {/* Dots */}
-          <div className="flex gap-2 mt-6">
+          <div className="flex gap-3 mt-6">
 
             {slides.map((_, index) => (
 
               <div
                 key={index}
                 onClick={() => setCurrent(index)}
-                className={`rounded-full cursor-pointer${
+                className={`w-3 h-3 rounded-full cursor-pointer transition-all duration-300 ${
                   current === index
                     ? "bg-green-400"
                     : "bg-gray-500"
@@ -146,18 +146,18 @@ const Home = () => {
       </div>
 
       {/* WHY CHOOSE SECTION */}
-      <section className="clre py-16 text-center border border-emerald-500">
+      <section className="clre py-16 text-center border border-emerald-500 px-5">
 
-        <h2 className="text-5xl font-bold mt-15">
+        <h2 className="text-3xl sm:text-4xl lg:text-5xl font-bold mt-10 sm:mt-15">
           Why Choose <span className="text-emerald-500">EcoCollect?</span>
         </h2>
 
-        <p className="text-gray-400 mt-5">
+        <p className="text-gray-400 mt-5 max-w-2xl mx-auto text-sm sm:text-base">
           We provide the most advanced waste management infrastructure
           for modern cities and conscious citizens.
         </p>
 
-        <div className="grid md:grid-cols-3 gap-12 mt-26 px-34 pb-17">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 sm:gap-12 mt-16 sm:mt-20 lg:mt-26 px-0 sm:px-6 lg:px-20 pb-10 sm:pb-17">
 
           {[
             {
@@ -179,7 +179,7 @@ const Home = () => {
 
             <div
               key={i}
-              className="bg-black border border-gray-800 p-8 rounded-xl 
+              className="bg-black border border-gray-800 p-6 sm:p-8 rounded-xl 
               hover:border-emerald-500 transition-all duration-100 
               hover:-translate-y-2 hover:shadow-lg"
             >
@@ -189,7 +189,7 @@ const Home = () => {
                 className="w-12 h-12 flex items-center justify-center 
                 bg-emerald-500/10 backdrop-blur-md 
                 text-emerald-400 rounded-lg mb-4 
-                border border-emerald-500/20"
+                border border-emerald-500/20 mx-auto md:mx-0"
               >
                 {item.icon}
               </div>
@@ -212,43 +212,43 @@ const Home = () => {
       </section>
 
       {/* STATS SECTION */}
-      <section className="bg-emerald-500 text-black py-24">
+      <section className="bg-emerald-500 text-black py-16 sm:py-24 px-5">
 
-        <div className="grid grid-cols-2 md:grid-cols-4 text-center gap-6 mt-5">
+        <div className="grid grid-cols-2 lg:grid-cols-4 text-center gap-8 mt-5">
 
           <div>
-            <h3 className="text-5xl font-extrabold">10k+</h3>
-            <p className="text-m">Happy Clients</p>
+            <h3 className="text-3xl sm:text-5xl font-extrabold">10k+</h3>
+            <p className="text-sm sm:text-base">Happy Clients</p>
           </div>
 
           <div>
-            <h3 className="text-5xl font-extrabold">50t</h3>
-            <p className="text-m">Waste Collected</p>
+            <h3 className="text-3xl sm:text-5xl font-extrabold">50t</h3>
+            <p className="text-sm sm:text-base">Waste Collected</p>
           </div>
 
           <div>
-            <h3 className="text-5xl font-extrabold">15</h3>
-            <p className="text-m">Cities Covered</p>
+            <h3 className="text-3xl sm:text-5xl font-extrabold">15</h3>
+            <p className="text-sm sm:text-base">Cities Covered</p>
           </div>
 
           <div>
-            <h3 className="text-5xl font-extrabold">24/7</h3>
-            <p className="text-m">Support</p>
+            <h3 className="text-3xl sm:text-5xl font-extrabold">24/7</h3>
+            <p className="text-sm sm:text-base">Support</p>
           </div>
 
         </div>
       </section>
 
       {/* FOOTER */}
-      <footer className="py-6 border-t border-gray-800">
+      <footer className="py-6 border-t border-gray-800 px-5 sm:px-10">
 
-        <div className="flex justify-between items-center pb-25">
+        <div className="flex flex-col lg:flex-row justify-between items-center gap-8 pb-10 sm:pb-20">
 
           {/* LEFT */}
-          <div className="flex items-center gap-3 mt-15">
+          <div className="flex flex-col sm:flex-row items-center gap-3 mt-10 sm:mt-15 text-center sm:text-left">
 
             <img
-              className="w-15 h-15 object-contain -mt-4"
+              className="w-14 h-14 sm:w-15 sm:h-15 object-contain"
               src={img3}
               alt="logo"
             />
@@ -259,7 +259,7 @@ const Home = () => {
                 ECOCOLLECT
               </h1>
 
-              <p className="text-gray-400 text-m">
+              <p className="text-gray-400 text-sm sm:text-m max-w-md">
                 Leading the way in sustainable urban waste
                 management solutions.
               </p>
@@ -269,7 +269,7 @@ const Home = () => {
           </div>
 
           {/* RIGHT */}
-          <div className="flex gap-8 mr-2.5 text-m text-gray-400 mt-15">
+          <div className="flex flex-wrap justify-center gap-6 sm:gap-8 text-sm sm:text-m text-gray-400 mt-5 lg:mt-15">
 
             <a href="#">Privacy</a>
             <a href="#">Terms</a>
