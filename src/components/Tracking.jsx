@@ -33,10 +33,10 @@ const Tracking = () => {
 
   const fetchTracking = async () => {
     try {
-      const token = localStorage.getItem("token");
+      const token = localStorage.getItem("access");
 
       const res = await fetch(
-        "http://127.0.0.1:8000/api/tracking/tracking/",
+        "https://preethu17.pythonanywhere.com/api/tracking/",
         {
           headers: {
             Authorization: `Bearer ${token}`,

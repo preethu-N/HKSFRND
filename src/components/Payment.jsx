@@ -1,84 +1,65 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 
-const Payment = ({ addPayment }) => {
+const Payment = () => {
+  const [payments, setPayments] = useState([]);
+  const [loading, setLoading] = useState(true);
 
-  const [loading, setLoading] = useState(false);
-
-  // =========================
-  // PAYMENT API
-  // =========================
-  const handleSubmit = async () => {
-
-    try {
-
-      setLoading(true);
-
-      const paymentData = {
-        id: Date.now(),
-        type: "Waste Payment",
-        date: new Date().toLocaleDateString(),
-        status: "PAID",
-        fee: 100,
-      };
-
-      // =========================
-      // API CALL
-      // =========================
-      const response = await fetch(
-        "http://127.0.0.1:8000/api/payment/payments/",
-        {
-          method: "POST",
-
+  useEffect(() => {
+    const fetchPayments = async () => {
+      try {
+        const token = localStorage.getItem("access");
+        const response = await fetch("https://preethu17.pythonanywhere.com/api/payment/payments/", {
           headers: {
-            "Content-Type": "application/json",
-          },
-
-          body: JSON.stringify(paymentData),
-        }
-      );
-
-      const savedPayment =
-        await response.json();
-
-      console.log(savedPayment);
-
-      // =========================
-      // UPDATE DASHBOARD STATE
-      // =========================
-      if (addPayment) {
-        addPayment(savedPayment);
+            Authorization: `Bearer ${token}`
+          }
+        });
+        
+        if (!response.ok) throw new Error("API failed");
+        
+        const data = await response.json();
+        setPayments(Array.isArray(data) ? data : []);
+      } catch (error) {
+        console.log("Payment fetch error:", error);
+      } finally {
+        setLoading(false);
       }
+    };
 
-      alert("Payment Successful");
-
-    } catch (error) {
-
-      console.log(
-        "Payment API Error:",
-        error
-      );
-
-      alert("Payment Failed");
-
-    } finally {
-
-      setLoading(false);
-
-    }
-  };
+    fetchPayments();
+  }, []);
 
   return (
-    <button
-      onClick={handleSubmit}
-      disabled={loading}
-      className="bg-emerald-500 text-black px-4 py-2 rounded"
-    >
-
-      {loading
-        ? "Processing..."
-        : "Pay ₹100"}
-
-    </button>
+    <div className="bg-gray-900 p-6 rounded-xl max-w-2xl mx-auto">
+      <h2 className="text-xl font-bold mb-6">Payment History</h2>
+      
+      {loading ? (
+        <p className="text-gray-400">Loading payments...</p>
+      ) : payments.length === 0 ? (
+        <p className="text-gray-400">No payment history found.</p>
+      ) : (
+        <div className="space-y-4">
+          {payments.map((payment) => (
+            <div key={payment.id} className="bg-black p-5 rounded-xl flex justify-between items-center border border-gray-800 hover:border-emerald-500 transition-colors">
+              <div>
+                <h3 className="font-bold text-white text-lg">{payment.payment_type || "Waste Collection Fee"}</h3>
+                <p className="text-sm text-gray-400 mt-1">
+                  {payment.created_at ? new Date(payment.created_at).toLocaleDateString() : new Date().toLocaleDateString()}
+                </p>
+                {payment.card_number && (
+                  <p className="text-xs text-gray-500 mt-1">Card: **** {payment.card_number.slice(-4)}</p>
+                )}
+              </div>
+              <div className="text-right">
+                <p className="text-2xl font-bold text-emerald-400">₹{payment.amount}</p>
+                <span className={`inline-block mt-2 text-xs px-3 py-1 rounded-full ${payment.status === 'PAID' ? 'bg-emerald-900 text-emerald-300' : 'bg-yellow-900 text-yellow-300'}`}>
+                  {payment.status}
+                </span>
+              </div>
+            </div>
+          ))}
+        </div>
+      )}
+    </div>
   );
 };
 

@@ -34,44 +34,35 @@ const Pay = () => {
 
       console.log(details);
 
+      const userStr = localStorage.getItem("user");
+      const user = userStr ? JSON.parse(userStr) : null;
+      const token = localStorage.getItem("access");
+
       // =========================
       // PAYMENT DATA
       // =========================
       const paymentData = {
-
-        transaction_id:
-          details.id,
-
-        payer_name:
-          details.payer.name.given_name,
-
-        payer_email:
-          details.payer.email_address,
-
+        user: user?.id,
+        payment_type: "PayPal",
         amount: fee,
-
+        card_number: "PAYPAL",
+        expiry: "N/A",
+        cvc: "N/A",
         status: "PAID",
-
       };
 
       // =========================
       // SAVE TO DJANGO
       // =========================
       const response = await fetch(
-        "http://127.0.0.1:8000/api/payment/payments/",
+        "https://preethu17.pythonanywhere.com/api/payment/",
         {
-
           method: "POST",
-
           headers: {
-            "Content-Type":
-              "application/json",
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${token}`
           },
-
-          body: JSON.stringify(
-            paymentData
-          ),
-
+          body: JSON.stringify(paymentData),
         }
       );
 

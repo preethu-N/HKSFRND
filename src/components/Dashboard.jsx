@@ -30,8 +30,11 @@ const Dashboard = () => {
   // ================= USER =================
   useEffect(() => {
     const storedUser = JSON.parse(localStorage.getItem("user"));
+    const token = localStorage.getItem("access");
 
-    if (!storedUser) {
+    if (!storedUser || !token) {
+      localStorage.removeItem("access");
+      localStorage.removeItem("user");
       navigate("/login");
       return;
     }
@@ -43,12 +46,30 @@ const Dashboard = () => {
   useEffect(() => {
     const fetchDashboardData = async () => {
       try {
+        const token = localStorage.getItem("access");
+        if (!token) {
+          localStorage.removeItem("user");
+          navigate("/login");
+          return;
+        }
+
         const response = await fetch(
-          "http://127.0.0.1:8000/api/dasboardwaste/"
+          "http://127.0.0.1:8000/api/dasboardwaste/",
+          {
+            headers: {
+              Authorization: `Bearer ${token}`,
+            },
+          }
         );
 
         if (!response.ok) {
-          throw new Error("Dashboard API not found");
+          if (response.status === 401 || response.status === 403) {
+            localStorage.removeItem("access");
+            localStorage.removeItem("user");
+            navigate("/login");
+            return;
+          }
+          throw new Error("Dashboard API request failed");
         }
 
         const data = await response.json();
@@ -73,6 +94,7 @@ const Dashboard = () => {
   const handleLogout = () => {
     if (window.confirm("Logout?")) {
       localStorage.removeItem("user");
+      localStorage.removeItem("access");
       navigate("/login");
     }
   };
@@ -80,15 +102,7 @@ const Dashboard = () => {
   // ================= REQUEST =================
   const addRequest = async (newRequest) => {
     try {
-      const res = await fetch("http://127.0.0.1:8000/api/request/", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(newRequest),
-      });
-
-      const data = await res.json();
-
-      setActivities((prev) => [data, ...prev]);
+      setActivities((prev) => [newRequest, ...prev]);
     } catch (err) {
       console.log(err);
     }
@@ -97,15 +111,7 @@ const Dashboard = () => {
   // ================= PAYMENT =================
   const addPayment = async (paymentData) => {
     try {
-      const res = await fetch("http://127.0.0.1:8000/api/payment/", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(paymentData),
-      });
-
-      const data = await res.json();
-
-      setActivities((prev) => [data, ...prev]);
+      setActivities((prev) => [paymentData, ...prev]);
     } catch (err) {
       console.log(err);
     }

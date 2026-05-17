@@ -1,12 +1,14 @@
 import React, { useState, useEffect } from "react";
-import { LogOut, Search, Check, X } from "lucide-react";
+import { LogOut, Search, Check, X, RefreshCw } from "lucide-react";
+import { useNavigate } from "react-router-dom";
 
 const AdminDashboard = () => {
+  const navigate = useNavigate();
   const [activeTab, setActiveTab] = useState("users");
   const [search, setSearch] = useState("");
 
   // ✅ FIX 1: REMOVE EXTRA /notifications/
-  const API = "http://127.0.0.1:8000/api/adminpanel";
+  const API = "https://preethu17.pythonanywhere.com/api/adminpanel/";
 
   // ✅ FIX 2: TOKEN FROM access (NOT user.token)
   const token = localStorage.getItem("access");
@@ -14,8 +16,26 @@ const AdminDashboard = () => {
   const [users, setUsers] = useState([]);
   const [bookings, setBookings] = useState([]);
   const [complaints, setComplaints] = useState([]);
+  const [loadingBookings, setLoadingBookings] = useState(false);
 
-  // ---------------- FETCH DATA ----------------
+  // ---------------- FETCH BOOKINGS (SEPARATE) ----------------
+  const fetchBookings = () => {
+    setLoadingBookings(true);
+    fetch(`${API}/bookings/`, {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    })
+      .then((res) => res.json())
+      .then((data) => setBookings(Array.isArray(data) ? data : []))
+      .catch((err) => {
+        console.log(err);
+        setBookings([]);
+      })
+      .finally(() => setLoadingBookings(false));
+  };
+
+  // ✅ REFACTORED: FETCH DATA ----------------
   useEffect(() => {
 
     // USERS
@@ -25,18 +45,11 @@ const AdminDashboard = () => {
       },
     })
       .then((res) => res.json())
-      .then((data) => setUsers(data))
+      .then((data) => setUsers(Array.isArray(data) ? data : []))
       .catch((err) => console.log(err));
 
     // BOOKINGS
-    fetch(`${API}/bookings/`, {
-      headers: {
-        Authorization: `Bearer ${token}`,
-      },
-    })
-      .then((res) => res.json())
-      .then((data) => setBookings(data))
-      .catch((err) => console.log(err));
+    fetchBookings();
 
     // COMPLAINTS
     fetch(`${API}/complaints/`, {
@@ -45,10 +58,10 @@ const AdminDashboard = () => {
       },
     })
       .then((res) => res.json())
-      .then((data) => setComplaints(data))
+      .then((data) => setComplaints(Array.isArray(data) ? data : []))
       .catch((err) => console.log(err));
 
-  }, []);
+  }, [token]);
 
   // ---------------- BOOKINGS ACTIONS ----------------
   const approveBooking = (id) => {
@@ -109,7 +122,10 @@ const AdminDashboard = () => {
   };
 
   const filteredBookings = bookings.filter((booking) =>
-    booking.user.toLowerCase().includes(search.toLowerCase())
+    (booking.user || "")
+      .toString()
+      .toLowerCase()
+      .includes(search.toLowerCase())
   );
 
   return (
@@ -122,7 +138,16 @@ const AdminDashboard = () => {
           ECO<span className="text-[#00d084]">COLLECT</span>
         </h1>
 
-        <button className="flex items-center gap-2 hover:text-red-400 transition">
+        <button
+          onClick={() => {
+            if (window.confirm("Logout?")) {
+              localStorage.removeItem("access");
+              localStorage.removeItem("user");
+              navigate("/login");
+            }
+          }}
+          className="flex items-center gap-2 hover:text-red-400 transition"
+        >
           <LogOut size={16} />
           LOGOUT
         </button>
@@ -194,45 +219,69 @@ const AdminDashboard = () => {
         {activeTab === "bookings" && (
           <div className="bg-[#030707] rounded-3xl border border-[#062b24] overflow-hidden">
 
-            <div className="p-8 border-b border-[#062b24] flex items-center gap-3">
-              <Search size={20} />
+            <div className="p-8 border-b border-[#062b24] flex items-center justify-between gap-3">
+              <div className="flex items-center gap-3 flex-1">
+                <Search size={20} />
 
-              <input
-                type="text"
-                placeholder="Search..."
-                value={search}
-                onChange={(e) => setSearch(e.target.value)}
-                className="bg-transparent outline-none w-full"
-              />
+                <input
+                  type="text"
+                  placeholder="Search..."
+                  value={search}
+                  onChange={(e) => setSearch(e.target.value)}
+                  className="bg-transparent outline-none w-full"
+                />
+              </div>
+
+              <button
+                onClick={fetchBookings}
+                disabled={loadingBookings}
+                className="flex items-center gap-2 px-4 py-2 bg-[#00d084] text-black rounded-full hover:bg-[#00c978] transition disabled:opacity-50"
+              >
+                <RefreshCw size={16} className={loadingBookings ? "animate-spin" : ""} />
+                Refresh
+              </button>
             </div>
 
-            {filteredBookings.map((booking) => (
-              <div
-                key={booking.id}
-                className="grid md:grid-cols-5 gap-5 p-8 border-b border-[#071311]"
-              >
-                <div>{booking.user}</div>
-                <div>{booking.type}</div>
-                <div>{booking.address}</div>
-                <div>{booking.status}</div>
+            {loadingBookings ? (
+              <div className="p-8 text-center text-gray-400">Loading bookings...</div>
+            ) : filteredBookings.length === 0 ? (
+              <div className="p-8 text-center text-gray-400">No bookings found.</div>
+            ) : (
+              filteredBookings.map((booking) => (
+                <div
+                  key={booking.id}
+                  className="grid md:grid-cols-5 gap-5 p-8 border-b border-[#071311]"
+                >
+                  <div>
+                    <p className="font-bold">{booking.user}</p>
+                    <p className="text-gray-500 text-sm">ID: {booking.id}</p>
+                  </div>
+                  <div>{booking.type}</div>
+                  <div>{booking.address}</div>
+                  <div>
+                    <span className="px-3 py-1 bg-yellow-900/40 text-yellow-400 rounded-full text-sm">
+                      {booking.status?.toUpperCase()}
+                    </span>
+                  </div>
 
-                <div className="flex gap-3">
-                  <button
-                    onClick={() => approveBooking(booking.id)}
-                    className="bg-green-900 p-3 rounded-xl"
-                  >
-                    <Check />
-                  </button>
+                  <div className="flex gap-3">
+                    <button
+                      onClick={() => approveBooking(booking.id)}
+                      className="bg-green-900 p-3 rounded-xl hover:bg-green-800 transition"
+                    >
+                      <Check size={18} />
+                    </button>
 
-                  <button
-                    onClick={() => rejectBooking(booking.id)}
-                    className="bg-red-900 p-3 rounded-xl"
-                  >
-                    <X />
-                  </button>
+                    <button
+                      onClick={() => rejectBooking(booking.id)}
+                      className="bg-red-900 p-3 rounded-xl hover:bg-red-800 transition"
+                    >
+                      <X size={18} />
+                    </button>
+                  </div>
                 </div>
-              </div>
-            ))}
+              ))
+            )}
           </div>
         )}
 

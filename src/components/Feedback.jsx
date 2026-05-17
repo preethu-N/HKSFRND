@@ -11,12 +11,15 @@ const Feedback = () => {
     setLoading(true);
 
     try {
-      const token = localStorage.getItem("token");
+      const token = localStorage.getItem("access");
 
       if (!token) {
         alert("Please login first");
         return;
       }
+
+      const userStr = localStorage.getItem("user");
+      const user = userStr ? JSON.parse(userStr) : null;
 
       const response = await fetch(
         "http://127.0.0.1:8000/api/feedback/feedbacks/",
@@ -27,6 +30,7 @@ const Feedback = () => {
             Authorization: `Bearer ${token}`,
           },
           body: JSON.stringify({
+            user: user?.id,
             subject,
             message,
           }),

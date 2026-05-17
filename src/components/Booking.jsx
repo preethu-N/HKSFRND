@@ -4,25 +4,38 @@ import { Search, Check, X } from "lucide-react";
 const Booking = () => {
   const [search, setSearch] = useState("");
   const [bookings, setBookings] = useState([]);
+  const [loading, setLoading] = useState(true);
 
-  const API = "http://127.0.0.1:8000/api/booking/bookings/";
-  const token = JSON.parse(localStorage.getItem("user"))?.token;
+  const API = "http://127.0.0.1:8000/api/booking";
+  const ADMIN_API = "http://127.0.0.1:8000/api/adminpanel";
+  const token = localStorage.getItem("access");
 
   // ---------------- FETCH ----------------
   useEffect(() => {
+    if (!token) {
+      setLoading(false);
+      return;
+    }
+
     fetch(`${API}/bookings/`, {
       headers: {
         Authorization: `Bearer ${token}`,
       },
     })
       .then((res) => res.json())
-      .then((data) => setBookings(data))
-      .catch((err) => console.log(err));
-  }, []);
+      .then((data) => {
+        setBookings(Array.isArray(data) ? data : []);
+      })
+      .catch((err) => {
+        console.log(err);
+        setBookings([]);
+      })
+      .finally(() => setLoading(false));
+  }, [token]);
 
   // ---------------- APPROVE ----------------
   const approveBooking = (id) => {
-    fetch(`${API}/bookings/${id}/approve/`, {
+    fetch(`${ADMIN_API}/bookings/${id}/approve/`, {
       method: "PATCH",
       headers: {
         Authorization: `Bearer ${token}`,
@@ -38,7 +51,7 @@ const Booking = () => {
 
   // ---------------- REJECT ----------------
   const rejectBooking = (id) => {
-    fetch(`${API}/bookings/${id}/reject/`, {
+    fetch(`${ADMIN_API}/bookings/${id}/reject/`, {
       method: "PATCH",
       headers: {
         Authorization: `Bearer ${token}`,
@@ -53,7 +66,10 @@ const Booking = () => {
   };
 
   const filteredBookings = bookings.filter((booking) =>
-    booking.user.toLowerCase().includes(search.toLowerCase())
+    (booking.user || "")
+      .toString()
+      .toLowerCase()
+      .includes(search.toLowerCase())
   );
 
   return (
@@ -84,59 +100,59 @@ const Booking = () => {
       </div>
 
       {/* BODY */}
-      {filteredBookings.map((booking, index) => (
+      {loading ? (
+        <div className="p-8 text-center text-gray-400">Loading booking requests...</div>
+      ) : filteredBookings.length === 0 ? (
+        <div className="p-8 text-center text-gray-400">No booking requests found.</div>
+      ) : (
+        filteredBookings.map((booking) => (
+          <div
+            key={booking.id}
+            className="grid grid-cols-1 md:grid-cols-5 gap-5 px-8 py-8 border-b border-[#071311] items-center"
+          >
 
-        <div
-          key={booking.id}
-          className="grid grid-cols-1 md:grid-cols-5 gap-5 px-8 py-8 border-b border-[#071311] items-center"
-        >
+            <div>
+              <h2 className="text-2xl font-bold">
+                {booking.user}
+              </h2>
 
-          <div>
-            <h2 className="text-2xl font-bold">
-              {booking.user}
-            </h2>
+              <p className="text-gray-500 mt-1">
+                ID: {booking.id}
+              </p>
+            </div>
 
-            <p className="text-gray-500 mt-1">
-              ID: {booking.id}
-            </p>
+            <div className="text-2xl font-bold">
+              {booking.type}
+            </div>
+
+            <div className="text-gray-400 text-lg">
+              {booking.address}
+            </div>
+
+            <div>
+              <span className="px-5 py-2 rounded-full text-sm font-bold bg-yellow-900/40 text-yellow-400">
+                {booking.status?.toUpperCase()}
+              </span>
+            </div>
+
+            <div className="flex items-center gap-4">
+              <button
+                onClick={() => approveBooking(booking.id)}
+                className="w-12 h-12 rounded-xl bg-[#002f25] flex items-center justify-center"
+              >
+                <Check className="text-[#00d084]" size={20} />
+              </button>
+
+              <button
+                onClick={() => rejectBooking(booking.id)}
+                className="w-12 h-12 rounded-xl bg-[#2d0808] flex items-center justify-center"
+              >
+                <X className="text-red-500" size={20} />
+              </button>
+            </div>
           </div>
-
-          <div className="text-2xl font-bold">
-            {booking.type}
-          </div>
-
-          <div className="text-gray-400 text-lg">
-            {booking.address}
-          </div>
-
-          <div>
-
-            <span className="px-5 py-2 rounded-full text-sm font-bold bg-yellow-900/40 text-yellow-400">
-              {booking.status.toUpperCase()}
-            </span>
-
-          </div>
-
-          <div className="flex items-center gap-4">
-
-            <button
-              onClick={() => approveBooking(booking.id)}
-              className="w-12 h-12 rounded-xl bg-[#002f25] flex items-center justify-center"
-            >
-              <Check className="text-[#00d084]" size={20} />
-            </button>
-
-            <button
-              onClick={() => rejectBooking(booking.id)}
-              className="w-12 h-12 rounded-xl bg-[#2d0808] flex items-center justify-center"
-            >
-              <X className="text-red-500" size={20} />
-            </button>
-
-          </div>
-
-        </div>
-      ))}
+        ))
+      )}
 
     </div>
   );

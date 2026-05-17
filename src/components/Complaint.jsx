@@ -15,7 +15,7 @@ const Complaint = () => {
       setLoading(true);
 
       const response = await fetch(
-        "http://127.0.0.1:8000/api/complaint/complaints/"
+        "https://preethu17.pythonanywhere.com/api/complaint/"
       );
 
       const data = await response.json();
@@ -41,7 +41,7 @@ const Complaint = () => {
     try {
 
       await fetch(
-        `http://localhost:8080/api/complaints/${id}/resolve`,
+        `https://preethu17.pythonanywhere.com/api/complaints/${id}/resolve`,
         {
           method: "PUT",
         }
@@ -70,7 +70,7 @@ const Complaint = () => {
     try {
 
       await fetch(
-        `http://localhost:8080/api/complaints/${id}`,
+        `https://preethu17.pythonanywhere.com/api/complaints/${id}`,
         {
           method: "DELETE",
         }

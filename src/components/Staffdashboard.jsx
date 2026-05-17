@@ -101,7 +101,7 @@ const StaffDashboard = () => {
       const token = localStorage.getItem("access");
 
       await fetch(
-        `http://127.0.0.1:8000/api/staff/stafftasks/${id}/complete/`,
+        `https://preethu17.pythonanywhere.com/api/staff/stafftasks/${id}/complete/`,
         {
           method: "PUT",
           headers: {
@@ -121,6 +121,17 @@ const StaffDashboard = () => {
   };
 
   // =========================
+  // LOGOUT
+  // =========================
+  const handleLogout = () => {
+    if (window.confirm("Logout?")) {
+      localStorage.removeItem("access");
+      localStorage.removeItem("user");
+      navigate("/login");
+    }
+  };
+
+  // =========================
   // UI
   // =========================
   return (
@@ -135,20 +146,29 @@ const StaffDashboard = () => {
           </p>
         </div>
 
-        {/* TABS */}
-        <div className="flex gap-2 bg-[#07110f] p-1 rounded-full">
-          <button
-            onClick={() => setActiveTab("tasks")}
-            className={`px-6 py-2 ${activeTab === "tasks" ? "bg-green-600 rounded-full" : ""}`}
-          >
-            TASKS
-          </button>
+        <div className="flex items-center gap-4">
+          {/* TABS */}
+          <div className="flex gap-2 bg-[#07110f] p-1 rounded-full">
+            <button
+              onClick={() => setActiveTab("tasks")}
+              className={`px-6 py-2 ${activeTab === "tasks" ? "bg-green-600 rounded-full" : ""}`}
+            >
+              TASKS
+            </button>
+
+            <button
+              onClick={() => setActiveTab("tracking")}
+              className={`px-6 py-2 ${activeTab === "tracking" ? "bg-green-600 rounded-full" : ""}`}
+            >
+              TRACKING
+            </button>
+          </div>
 
           <button
-            onClick={() => setActiveTab("tracking")}
-            className={`px-6 py-2 ${activeTab === "tracking" ? "bg-green-600 rounded-full" : ""}`}
+            onClick={handleLogout}
+            className="px-5 py-2 bg-red-600 rounded-full hover:bg-red-500 transition"
           >
-            TRACKING
+            Logout
           </button>
         </div>
       </div>

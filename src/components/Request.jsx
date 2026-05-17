@@ -55,9 +55,12 @@ const Request = ({ addRequest }) => {
 
       setLoading(true);
 
+      const userStr = localStorage.getItem("user");
+      const user = userStr ? JSON.parse(userStr) : null;
+
       const newRequest = {
-        id: Date.now(),
-        type,
+        user: user?.id,
+        waste_type: type,
         date,
         address,
         fee,
@@ -67,13 +70,15 @@ const Request = ({ addRequest }) => {
       // =========================
       // API CALL
       // =========================
+      const token = localStorage.getItem("access");
       const response = await fetch(
-        "http://127.0.0.1:8000/api/requestrequests/",
+        "https://preethu17.pythonanywhere.com/api/request/",
         {
           method: "POST",
 
           headers: {
             "Content-Type": "application/json",
+            Authorization: `Bearer ${token}`,
           },
 
           body: JSON.stringify(newRequest),
