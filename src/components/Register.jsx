@@ -53,7 +53,7 @@ const Register = () => {
       const response = await axios.post(
         "http://127.0.0.1:8000/api/register/",
         {
-          name: form.name,
+          name: form.username,
           email: form.email,
           password: form.password,
           phone: form.phone,
