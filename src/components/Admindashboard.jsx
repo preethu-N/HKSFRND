@@ -279,13 +279,7 @@ const AdminDashboard = () => {
                     >
                       <Check size={18} />
                     </button>
-
-                    <button
-                      onClick={() => rejectBooking(booking.id)}
-                      className="bg-red-900 text-white p-3 rounded-xl hover:bg-red-800 transition flex-1 md:flex-none"
-                    >
-                      <X size={18} />
-                    </button>
+                    
                   </div>
                 </div>
               ))
