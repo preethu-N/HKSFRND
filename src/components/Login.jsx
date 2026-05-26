@@ -31,7 +31,6 @@ const Login = () => {
 
     e.preventDefault();
 
-    // EMPTY CHECK
     if (!form.email || !form.password) {
       console.log("Please fill all fields");
       return;
@@ -45,9 +44,11 @@ const Login = () => {
         "https://preethu17.pythonanywhere.com/api/login/",
         {
           method: "POST",
+
           headers: {
             "Content-Type": "application/json",
           },
+
           body: JSON.stringify({
             email: form.email,
             password: form.password,
@@ -59,11 +60,8 @@ const Login = () => {
 
       console.log("LOGIN DATA =", data);
 
-      // LOGIN FAILED
       if (!response.ok) {
-
         console.log(data.error || "Invalid Credentials");
-
         return;
       }
 
@@ -132,21 +130,30 @@ const Login = () => {
 
         {/* HEADER */}
         <h1 className="text-center font-bold text-4xl mb-2 border-[#D4AF37] border-b-2 pb-3">
+
           Account Login
+
         </h1>
 
         <p className="text-center text-white mb-7">
+
           Enter your credentials to access your dashboard
+
         </p>
 
         {/* FORM */}
-        <form onSubmit={handleSubmit} className="mt-6">
+        <form
+          onSubmit={handleSubmit}
+          className="mt-6"
+        >
 
           {/* EMAIL */}
           <div className="mb-6">
 
             <label className="block text-sm text-[#D4AF37] font-bold mb-2">
+
               EMAIL
+
             </label>
 
             <input
@@ -164,7 +171,9 @@ const Login = () => {
           <div className="mb-8">
 
             <label className="block text-sm text-[#D4AF37] font-bold mb-2">
+
               PASSWORD
+
             </label>
 
             <input
@@ -198,7 +207,9 @@ const Login = () => {
               to="/sign"
               className="text-[#D4AF37] font-bold hover:underline"
             >
+
               Register here
+
             </Link>
 
           </p>
@@ -208,7 +219,6 @@ const Login = () => {
       </div>
 
     </div>
-
   );
 };
 
