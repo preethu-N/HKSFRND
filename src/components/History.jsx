@@ -44,29 +44,21 @@ const History = () => {
 
   return (
 
-    <div className="p-3 sm:p-6 bg-black text-white min-h-screen">
+    <div className="p-3 sm:p-6 bg-white text-white min-h-screen">
 
       {/* NAVBAR / HEADER */}
       <div className="mb-6">
 
-        <h1 className="text-xl sm:text-2xl font-bold">
-          History
-        </h1>
-
-        <p className="text-gray-400 text-xs sm:text-sm">
-          Track all your past waste
-          collection activities
-        </p>
-
+        
       </div>
 
       {/* TABLE */}
-      <div className="bg-gray-900 rounded-xl overflow-x-auto">
+      <div className="bg-[#14532D] rounded-xl overflow-x-auto">
 
         <table className="w-full min-w-700px text-left">
 
           {/* TABLE HEADER */}
-          <thead className="bg-gray-800 text-gray-400 text-xs sm:text-sm">
+          <thead className="bg-[#14532D] text-[#D4AF37] text-xs sm:text-sm">
 
             <tr>
 

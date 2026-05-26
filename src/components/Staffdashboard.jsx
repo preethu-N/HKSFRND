@@ -47,7 +47,7 @@ const StaffDashboard = () => {
 
       // TASKS
       const taskRes = await fetch(
-        `${API_BASE}/stafftasks/`,
+        `${API_BASE}stafftasks/`,
         { headers }
       );
 
@@ -57,7 +57,7 @@ const StaffDashboard = () => {
 
       // NOTIFICATIONS
       const notifyRes = await fetch(
-        `${API_BASE}/notifications/`,
+        `${API_BASE}notifications/`,
         { headers }
       );
 
@@ -81,7 +81,7 @@ const StaffDashboard = () => {
       const token = localStorage.getItem("access");
 
       await fetch(
-        `${API_BASE}/staff/${id}/start/`,
+        `${API_BASE}stafftasks/${id}/start/`,
         {
           method: "PUT",
           headers: {
@@ -113,7 +113,7 @@ const StaffDashboard = () => {
       const token = localStorage.getItem("access");
 
       await fetch(
-        `${API_BASE}/staff/${id}/complete/`,
+        `${API_BASE}stafftasks/${id}/complete/`,
         {
           method: "PUT",
           headers: {
@@ -150,7 +150,7 @@ const StaffDashboard = () => {
   // UI
   // =========================
   return (
-    <div className="bg-black min-h-screen text-white px-4 sm:px-6 md:px-10 py-6 md:py-8 mt-16">
+    <div className="bg-white min-h-screen text-[#14532D] px-4 sm:px-6 md:px-10 py-6 md:py-8 mt-16">
 
       {/* HEADER */}
       <div className="flex flex-col lg:flex-row justify-between lg:items-center gap-6 mb-10 border-b border-[#0f2b26] pb-6">
@@ -220,17 +220,17 @@ const StaffDashboard = () => {
               tasks.map((task) => (
                 <div
                   key={task.id}
-                  className="bg-[#07110f] p-4 sm:p-6 rounded-2xl mb-4"
+                  className="bg-[#14532D] p-4 sm:p-6 border-2 border-[#D4AF37] rounded-2xl mb-4"
                 >
                   <h3 className="text-lg sm:text-xl font-bold break-all">
                     {task.type}
                   </h3>
 
-                  <p className="text-gray-400 text-sm sm:text-base break-all">
+                  <p className="text-[#D4AF37] text-sm sm:text-base break-all">
                     {task.customer}
                   </p>
 
-                  <p className="flex items-start gap-2 mt-3 text-sm sm:text-base break-all">
+                  <p className="flex items-start gap-2 mt-3 text-sm text-[#D4AF37] sm:text-base break-all">
                     <MapPin size={16} className="mt-1 min-w-16px]" />
                     <span>{task.address}</span>
                   </p>
@@ -240,7 +240,7 @@ const StaffDashboard = () => {
                     {task.status === "pending" && (
                       <button
                         onClick={() => startTask(task.id)}
-                        className="bg-green-500 px-4 py-2 rounded w-full sm:w-auto"
+                        className="bg-[#D4AF37] px-4 py-2 rounded w-full sm:w-auto"
                       >
                         Start
                       </button>
@@ -249,14 +249,14 @@ const StaffDashboard = () => {
                     {task.status === "in-progress" && (
                       <button
                         onClick={() => completeTask(task.id)}
-                        className="bg-yellow-500 px-4 py-2 rounded w-full sm:w-auto"
+                        className="bg-blue-200 px-4 py-2 rounded w-full sm:w-auto"
                       >
                         Complete
                       </button>
                     )}
 
                     {task.status === "completed" && (
-                      <button className="bg-gray-600 px-4 py-2 rounded w-full sm:w-auto">
+                      <button className="bg-green-300 px-4 py-2 rounded w-full sm:w-auto">
                         Done
                       </button>
                     )}
@@ -268,9 +268,9 @@ const StaffDashboard = () => {
           </div>
 
           {/* NOTIFICATIONS */}
-          <div className="bg-[#07110f] p-4 sm:p-6 rounded-2xl h-fit">
+          <div className="bg-[#14532D] p-4 sm:p-6 rounded-2xl h-fit">
 
-            <div className="flex items-center gap-2 mb-4 text-lg sm:text-xl">
+            <div className="flex items-center gap-2 mb-4 text-lg sm:text-xl text-white font-bold">
               <Bell size={22} /> Notifications
             </div>
 
@@ -280,13 +280,13 @@ const StaffDashboard = () => {
               notifications.map((n) => (
                 <div
                   key={n.id}
-                  className="mb-4 border-b border-gray-700 pb-3"
+                  className="mb-4 border-b border-white pb-3"
                 >
                   <h4 className="font-bold text-sm sm:text-base">
                     {n.title}
                   </h4>
 
-                  <p className="text-gray-400 text-sm break-all">
+                  <p className="text-white text-sm break-all">
                     {n.text}
                   </p>
                 </div>
@@ -300,7 +300,7 @@ const StaffDashboard = () => {
 
       {/* TRACKING */}
       {activeTab === "tracking" && (
-        <div className="bg-[#07110f] p-4 sm:p-6 rounded-2xl overflow-hidden">
+        <div className="bg-[#14532D] p-4 sm:p-6 rounded-2xl overflow-hidden">
           <Tracking />
         </div>
       )}

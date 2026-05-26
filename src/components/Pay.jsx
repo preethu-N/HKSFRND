@@ -106,15 +106,15 @@ const Pay = () => {
 
   return (
 
-    <div className="min-h-screen bg-black text-white flex items-center justify-center px-4 py-10">
+    <div className="min-h-screen bg-white text-[#D4AF37] flex items-center justify-center px-4 py-10">
 
       {/* CARD */}
-      <div className="w-full max-w-md bg-gray-900 rounded-3xl p-6 shadow-2xl border border-gray-800">
+      <div className="w-full max-w-md bg-[#14532D] rounded-3xl p-6 shadow-2xl border border-gray-800">
 
         {/* HEADER */}
         <div className="flex justify-between items-center">
 
-          <h1 className="text-2xl font-bold">
+          <h1 className="text-2xl font-bold text-white">
             Secure Payment
           </h1>
 
@@ -130,11 +130,11 @@ const Pay = () => {
         </div>
 
         {/* SUMMARY */}
-        <div className="bg-black rounded-2xl p-5 mt-7 border border-gray-800">
+        <div className="bg-[#D4AF37] rounded-2xl p-5 mt-7 border border-gray-800">
 
           <div className="flex justify-between items-center">
 
-            <span className="text-gray-400">
+            <span className="text-white text-lg font-semibold">
               Service Fee
             </span>
 

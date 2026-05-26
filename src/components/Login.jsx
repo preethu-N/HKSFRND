@@ -95,16 +95,16 @@ const Login = () => {
   };
 
   return (
-    <div className="min-h-screen bg-black flex items-center justify-center px-4 text-white">
+    <div className="min-h-screen  bg-[#F8FAF7] flex items-center justify-center px-4 text-[#D4AF37] border-2 border-green-900 ">
 
-      <div className="w-95 max-w-xl bg-[#0b0f0f] border border-green-900 rounded-3xl p-9 shadow-2xl">
+      <div className="w-95 max-w-xl bg-[#14532D] border-2 border-[#D4AF37] rounded-3xl p-9 shadow-2xl">
 
         {/* HEADER */}
-        <h1 className="text-center font-bold text-3xl mb-2">
+        <h1 className="text-center font-bold text-4xl mb-2  border-[#D4AF37] border-b-2 pb-3">
           Account Login
         </h1>
 
-        <p className="text-center text-gray-500 mb-7">
+        <p className="text-center text-white mb-7 ">
           Enter your credentials to access your dashboard
         </p>
 
@@ -113,7 +113,7 @@ const Login = () => {
 
           {/* EMAIL */}
           <div className="mb-6">
-            <label className="block text-sm text-gray-400 mb-2">
+            <label className="block text-sm text-[#D4AF37] font-bold mb-2">
               EMAIL
             </label>
 
@@ -123,13 +123,13 @@ const Login = () => {
               value={form.email}
               onChange={handleChange}
               placeholder="Enter Email"
-              className="w-full px-5 py-3 rounded-xl bg-black border border-gray-800 text-white focus:border-green-500 outline-none"
+              className="w-full px-5 py-3 rounded-xl bg-white border border-gray-800 text-black focus:border-green-500 outline-none"
             />
           </div>
 
           {/* PASSWORD */}
           <div className="mb-8">
-            <label className="block text-sm text-gray-400 mb-2">
+            <label className="block text-sm text-[#D4AF37] font-bold mb-2">
               PASSWORD
             </label>
 
@@ -139,7 +139,7 @@ const Login = () => {
               value={form.password}
               onChange={handleChange}
               placeholder="••••••••"
-              className="w-full px-5 py-3 rounded-xl bg-black border border-gray-800 text-white focus:border-green-500 outline-none"
+              className="w-full px-5 py-3 rounded-xl bg-white border border-gray-800 text-black focus:border-green-500 outline-none"
             />
           </div>
 
@@ -147,7 +147,7 @@ const Login = () => {
           <button
             type="submit"
             disabled={loading}
-            className="w-full bg-emerald-500 hover:bg-green-600 text-black font-semibold py-3 rounded-xl"
+            className="w-full bg-[#D4AF37] hover:bg-[#14532D] text-[#14532D] hover:text-[#D4AF37] font-extrabold  py-3 rounded-xl border-2 border-emerald-900 "
           >
             {loading ? "Logging in..." : "LOGIN"}
           </button>
@@ -155,7 +155,7 @@ const Login = () => {
           {/* REGISTER */}
           <p className="text-center mt-3">
             Don't have an account?{" "}
-            <Link to="/sign" className="text-emerald-500">
+            <Link to="/sign" className="text-[#D4AF37] font-bold hover:underline">
               Register here
             </Link>
           </p>

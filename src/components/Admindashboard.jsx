@@ -129,10 +129,10 @@ const AdminDashboard = () => {
   );
 
   return (
-    <div className="min-h-screen bg-black text-white overflow-x-hidden">
+    <div className="min-h-screen bg-[#14532D] text-[#D4AF37] overflow-x-hidden">
 
       {/* NAVBAR */}
-      <div className="flex flex-col gap-4 md:flex-row md:items-center md:justify-between px-5 md:px-10 py-7 border-b border-[#062b24]">
+      <div className="flex flex-col gap-4 md:flex-row md:items-center md:justify-between px-5 md:px-10 py-7 border-b border-[#0b826c]">
 
         <h1 className="text-3xl md:text-4xl font-bold">
           ECO<span className="text-[#00d084]">COLLECT</span>
@@ -162,7 +162,7 @@ const AdminDashboard = () => {
             onClick={() => setActiveTab("users")}
             className={`flex-1 min-w-28 text-center px-6 py-3 rounded-full ${
               activeTab === "users"
-                ? "bg-[#00d084] text-black"
+                ? "bg-[#D4AF37] text-black"
                 : "bg-[#071311]"
             }`}
           >
@@ -173,7 +173,7 @@ const AdminDashboard = () => {
             onClick={() => setActiveTab("bookings")}
             className={`flex-1 min-w-28 text-center px-6 py-3 rounded-full ${
               activeTab === "bookings"
-                ? "bg-[#00d084] text-black"
+                ? "bg-[#D4AF37] text-black"
                 : "bg-[#071311]"
             }`}
           >
@@ -184,7 +184,7 @@ const AdminDashboard = () => {
             onClick={() => setActiveTab("complaints")}
             className={`flex-1 min-w-28 text-center px-6 py-3 rounded-full ${
               activeTab === "complaints"
-                ? "bg-[#00d084] text-black"
+                ? "bg-[#D4AF37] text-black"
                 : "bg-[#071311]"
             }`}
           >
@@ -200,13 +200,13 @@ const AdminDashboard = () => {
             {users.map((user) => (
               <div
                 key={user.id}
-                className="border border-[#062b24] p-6 sm:p-8 rounded-3xl flex flex-col gap-4 w-full"
+                className="border border-[#1dab91] p-6 sm:p-8 rounded-3xl flex flex-col gap-4 w-full"
               >
                 <h2 className="text-2xl sm:text-3xl font-bold">{user.name}</h2>
-                <p className="text-gray-400 ">{user.email}</p>
+                <p className="text-white ">{user.email}</p>
 
                 <div className="mt-3">
-                  <span className="bg-[#071311] px-4 py-2 rounded-full text-[#00d084] text-sm">
+                  <span className="bg-[#071311] px-4 py-2 rounded-full text-[#D4AF37] text-sm">
                     {user.role}
                   </span>
                 </div>
@@ -217,9 +217,9 @@ const AdminDashboard = () => {
 
         {/* BOOKINGS */}
         {activeTab === "bookings" && (
-          <div className="bg-[#030707] rounded-3xl border border-[#062b24] overflow-hidden">
+          <div className="bg-[#14532D] rounded-3xl border border-[#062b24] overflow-hidden">
 
-            <div className="p-6 md:p-8 border-b border-[#062b24] flex flex-col gap-4 md:flex-row md:items-center md:justify-between">
+            <div className="p-6 md:p-8 border-b border-[#D4AF37] flex flex-col gap-4 md:flex-row md:items-center md:justify-between">
               <div className="flex items-center gap-3 flex-1 min-w-0 bg-[#071311] rounded-full px-4 py-3">
                 <Search size={20} />
 
@@ -235,7 +235,7 @@ const AdminDashboard = () => {
               <button
                 onClick={fetchBookings}
                 disabled={loadingBookings}
-                className="flex items-center justify-center gap-2 px-4 py-3 bg-[#00d084] text-black rounded-full hover:bg-[#00c978] transition disabled:opacity-50 w-full md:w-auto"
+                className="flex items-center justify-center gap-2 px-4 py-3 bg-[#D4AF37] text-[#14532D] rounded-full hover:bg-[#00c978] transition disabled:opacity-50 w-full md:w-auto"
               >
                 <RefreshCw size={16} className={loadingBookings ? "animate-spin" : ""} />
                 Refresh
@@ -250,12 +250,12 @@ const AdminDashboard = () => {
               filteredBookings.map((booking) => (
                 <div
                   key={booking.id}
-                  className="grid grid-cols-1 md:grid-cols-5 gap-5 p-6 md:p-8 border-b border-[#071311]"
+                  className="grid grid-cols-1 md:grid-cols-5 gap-5 p-6 md:p-8 border-b border-[#D4AF37] items-center"
                 >
                   <div className="space-y-2">
                     <p className="text-gray-400 text-xs uppercase tracking-[0.2em] md:hidden">User</p>
                     <p className="font-bold ">{booking.user}</p>
-                    <p className="text-gray-500 text-sm">ID: {booking.id}</p>
+                    <p className="text-white text-sm">ID: {booking.id}</p>
                   </div>
                   <div className="space-y-2">
                     <p className="text-gray-400 text-xs uppercase tracking-[0.2em] md:hidden">Type</p>
@@ -275,14 +275,14 @@ const AdminDashboard = () => {
                   <div className="flex flex-wrap gap-3 justify-start md:justify-end">
                     <button
                       onClick={() => approveBooking(booking.id)}
-                      className="bg-green-900 p-3 rounded-xl hover:bg-green-800 transition flex-1 md:flex-none"
+                      className="bg-[#D4AF37] text-[#14532D] p-3 rounded-xl hover:bg-green-800 transition flex-1 md:flex-none"
                     >
                       <Check size={18} />
                     </button>
 
                     <button
                       onClick={() => rejectBooking(booking.id)}
-                      className="bg-red-900 p-3 rounded-xl hover:bg-red-800 transition flex-1 md:flex-none"
+                      className="bg-red-900 text-white p-3 rounded-xl hover:bg-red-800 transition flex-1 md:flex-none"
                     >
                       <X size={18} />
                     </button>
@@ -295,41 +295,41 @@ const AdminDashboard = () => {
 
         {/* COMPLAINTS */}
         {activeTab === "complaints" && (
-          <div className="bg-[#030707] rounded-3xl border border-[#062b24] overflow-hidden">
+          <div className="bg-[#14532D] rounded-3xl border border-[#D4AF37] overflow-hidden">
 
             {complaints.map((complaint) => (
               <div
                 key={complaint.id}
-                className="grid grid-cols-1 md:grid-cols-5 gap-5 p-6 md:p-8 border-b border-[#071311]"
+                className="grid grid-cols-1 md:grid-cols-5 gap-5 p-6 md:p-8 border-b border-[#D4AF37] items-center"
               >
                 <div className="space-y-2">
                   <p className="text-gray-400 text-xs uppercase tracking-[0.2em] md:hidden">User</p>
-                  <p className="">{complaint.user}</p>
+                  <p className="text-white">{complaint.user}</p>
                 </div>
                 <div className="space-y-2">
                   <p className="text-gray-400 text-xs uppercase tracking-[0.2em] md:hidden">Subject</p>
-                  <p className="">{complaint.subject}</p>
+                  <p className="text-white">{complaint.subject}</p>
                 </div>
                 <div className="space-y-2">
                   <p className="text-gray-400 text-xs uppercase tracking-[0.2em] md:hidden">Message</p>
-                  <p className="">{complaint.message}</p>
+                  <p className="text-white">{complaint.message}</p>
                 </div>
                 <div className="space-y-2">
                   <p className="text-gray-400 text-xs uppercase tracking-[0.2em] md:hidden">Status</p>
-                  <p>{complaint.status}</p>
+                  <p className="text-white">{complaint.status}</p>
                 </div>
 
                 <div className="flex flex-wrap gap-3 justify-start md:justify-end">
                   <button
                     onClick={() => resolveComplaint(complaint.id)}
-                    className="bg-green-900 px-4 py-2 rounded-xl flex-1 md:flex-none text-center"
+                    className="bg-[#D4AF37] text-[#14532D] px-4 py-2 rounded-xl flex-1 md:flex-none text-center"
                   >
                     Resolve
                   </button>
 
                   <button
                     onClick={() => deleteComplaint(complaint.id)}
-                    className="bg-red-900 px-4 py-2 rounded-xl flex-1 md:flex-none text-center"
+                    className="bg-red-900 text-white px-4 py-2 rounded-xl flex-1 md:flex-none text-center"
                   >
                     Delete
                   </button>

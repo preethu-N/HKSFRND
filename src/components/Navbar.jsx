@@ -29,16 +29,16 @@ const Navbar = () => {
   };
 
   return (
-    <nav className="fixed top-0 left-0 w-full z-50 px-4 md:px-8 py-4 bg-black shadow-lg shadow-black/50">
+    <nav className="fixed top-0 left-0 w-full z-50 px-4 md:px-8 py-4 bg-[#14532D] border-b border-yellow-300 text-white shadow-lg shadow-black/50">
 
       <div className="flex items-center justify-between">
 
         {/* Logo */}
         <div className="flex items-center">
-          <img className="w-16 md:w-28 h-auto block" src={img} alt="" />
+          <img  className="w-16 md:w-28 h-auto block opacity-80" src={img}  alt="Logo" />
 
-          <h1 className="text-white text-xl md:text-3xl font-bold font-[Outfit]">
-            ECO<span className="text-green-400">COLLECT</span>
+          <h1 className="text-[#D4AF37] text-xl md:text-3xl font-bold font-[Outfit]">
+            ECO<span className="text-white">COLLECT</span>
           </h1>
         </div>
 
@@ -55,7 +55,7 @@ const Navbar = () => {
 
           <Link
             to="/"
-            className="text-gray-300 hover:text-green-400 transition"
+            className="text-[#D4AF37] hover:text-green-400 font-bold transition"
           >
             HOME
           </Link>
@@ -64,14 +64,14 @@ const Navbar = () => {
             <>
               <Link
                 to="/dashboard"
-                className="text-gray-300 hover:text-green-400 transition"
+                className="text-[#D4AF37] hover:text-green-400 font-bold transition"
               >
                 DASHBOARD
               </Link>
 
               <button
                 onClick={handleLogout}
-                className="px-5 py-2 rounded-full text-white hover:text-red-600 transition"
+                className="px-5 py-2 rounded-full text-[#D4AF37] hover:text-red-600 font-bold transition"
               >
                 LOGOUT
               </button>
@@ -80,14 +80,14 @@ const Navbar = () => {
             <>
               <Link
                 to="/login"
-                className="text-gray-300 hover:text-green-400 transition"
+                className="text-[#D4AF37] hover:text-green-400 font-bold transition"
               >
                 LOGIN
               </Link>
 
               <Link
                 to="/sign"
-                className="bg-green-500 text-black px-5 py-2 rounded-full font-semibold hover:text-white transition"
+                className="bg-[#D4AF37] text-[#14532D] px-5 py-2 rounded-full font-bold hover:bg-[#14532D] hover:text-[#D4AF37] transition"
               >
                 JOIN NOW
               </Link>
@@ -102,7 +102,7 @@ const Navbar = () => {
 
           <Link
             to="/"
-            className="text-gray-300 hover:text-green-400 transition"
+            className="text-[#D4AF37] hover:text-green-400 transition"
             onClick={() => setMenuOpen(false)}
           >
             HOME
@@ -112,7 +112,7 @@ const Navbar = () => {
             <>
               <Link
                 to="/dashboard"
-                className="text-gray-300 hover:text-green-400 transition"
+                className="text-[#D4AF37] hover:text-green-400 transition"
                 onClick={() => setMenuOpen(false)}
               >
                 DASHBOARD
@@ -123,7 +123,7 @@ const Navbar = () => {
                   handleLogout();
                   setMenuOpen(false);
                 }}
-                className="text-left text-white hover:text-red-600 transition"
+                className="text-left text-[#D4AF37] hover:text-red-600 transition"
               >
                 LOGOUT
               </button>
@@ -132,7 +132,7 @@ const Navbar = () => {
             <>
               <Link
                 to="/login"
-                className="text-gray-300 hover:text-green-400 transition"
+                className="text-[#D4AF37] hover:text-green-400 transition"
                 onClick={() => setMenuOpen(false)}
               >
                 LOGIN
@@ -140,7 +140,7 @@ const Navbar = () => {
 
               <Link
                 to="/sign"
-                className="bg-green-500 text-black px-5 py-2 rounded-full font-semibold hover:text-white transition text-center"
+                className="bg-[#D4AF37] text-[#14532D] px-5 py-2 rounded-ful font-semibold hover:bg-[#14532D] hover:text-[#D4AF37] transition text-center"
                 onClick={() => setMenuOpen(false)}
               >
                 JOIN NOW

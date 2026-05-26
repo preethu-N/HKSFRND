@@ -6,8 +6,8 @@ import History from "./History";
 import { Link, useNavigate } from "react-router-dom";
 
 const Card = ({ title, value }) => (
-  <div className="bg-gray-900 p-4 rounded-xl w-full">
-    <h2 className="text-gray-400 text-sm mb-2">{title}</h2>
+  <div className="bg-[#113723] p-4 rounded-xl w-full">
+    <h2 className="text-[#D4AF37] text-sm mb-2">{title}</h2>
     <p className="text-2xl font-bold">{value}</p>
   </div>
 );
@@ -120,7 +120,7 @@ const Dashboard = () => {
   };
 
   return (
-    <div className="p-3 sm:p-6 bg-black text-white min-h-screen overflow-x-hidden">
+    <div className="p-3 sm:p-6 bg-white text-black font-semibold min-h-screen overflow-x-hidden">
 
       {/* HEADER */}
       <div className="flex flex-col lg:flex-row lg:justify-between lg:items-center gap-6 mb-10 mt-20">
@@ -139,8 +139,8 @@ const Dashboard = () => {
                 onClick={() => setActiveTab(tab)}
                 className={`px-4 py-2 rounded-full text-sm sm:text-base transition-all duration-200 ${
                   activeTab === tab
-                    ? "bg-emerald-500 text-black"
-                    : "bg-gray-800"
+                    ? "bg-[#D4AF37] text-[#14532D] shadow-lg"
+                    : "bg-[#D4AF37] text-[#14532D] opacity-80 hover:opacity-100"
                 }`}
               >
                 {tab}
@@ -150,7 +150,7 @@ const Dashboard = () => {
 
           <button
             onClick={handleLogout}
-            className="bg-red-600 px-4 py-2 rounded-full text-sm sm:text-base"
+            className="bg-[#D4AF37] text-[#14532D] px-4 py-2 rounded-full text-sm sm:text-base hover:opacity-95"
           >
             Logout
           </button>
@@ -169,31 +169,31 @@ const Dashboard = () => {
           </div>
 
           {/* RECENT ACTIVITY */}
-          <div className="bg-gray-900 p-4 rounded-xl w-full overflow-hidden">
+          <div className="bg-[#D4AF37] p-4 rounded-xl w-full overflow-hidden">
             <h2 className="mb-4 text-lg font-semibold">
               Recent Activity
             </h2>
 
             {activities.length === 0 ? (
-              <p className="text-gray-400">No activity found</p>
+              <p className="text-white">No activity found</p>
             ) : (
               <div className="space-y-3">
                 {activities.map((item, index) => (
                   <div
                     key={index}
-                    className="bg-black p-3 rounded flex flex-col sm:flex-row sm:justify-between sm:items-center gap-3"
+                    className="bg-[#14532D] p-3 rounded flex flex-col sm:flex-row sm:justify-between sm:items-center gap-3"
                   >
                     <div className="break-all">
                       <h3 className="font-medium">
                         {item.type || "Request"}
                       </h3>
 
-                      <p className="text-gray-400 text-sm">
+                      <p className="text-[#D4AF37] text-sm">
                         {item.date || ""}
                       </p>
                     </div>
 
-                    <span className="text-xs px-3 py-1 bg-gray-700 rounded w-fit">
+                    <span className="text-xs px-3 py-1 bg-[#D4AF37] text-[#14532D] rounded w-fit">
                       {item.status || "PENDING"}
                     </span>
                   </div>

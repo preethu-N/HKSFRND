@@ -17,7 +17,6 @@ const Register = () => {
     role: "USER",
   });
 
-
   const handleChange = (e) => {
 
     setForm({
@@ -27,12 +26,10 @@ const Register = () => {
 
   };
 
-
   const handleSubmit = async (e) => {
 
     e.preventDefault();
 
- 
     if (
       !form.name ||
       !form.email ||
@@ -66,17 +63,11 @@ const Register = () => {
 
       alert("Registration Successful");
 
-      // =========================
-      // SAVE USER
-      // =========================
       localStorage.setItem(
         "user",
         JSON.stringify(response.data)
       );
 
-      // =========================
-      // RESET FORM
-      // =========================
       setForm({
         name: "",
         email: "",
@@ -86,9 +77,6 @@ const Register = () => {
         role: "USER",
       });
 
-      // =========================
-      // REDIRECT LOGIN
-      // =========================
       navigate("/login");
 
     } catch (err) {
@@ -108,29 +96,29 @@ const Register = () => {
 
   return (
 
-    <div className="min-h-screen bg-black flex items-center justify-center px-4 mt-16">
+    <div className="min-h-screen bg-white flex items-center justify-center px-4 py-10 text-white mt-20">
 
-      <div className="w-full max-w-xl bg-[#0b0f0f] border border-green-900 rounded-3xl p-9 shadow-2xl">
+      <div className="w-full max-w-md bg-[#14532D] border border-green-900 rounded-2xl p-6 shadow-2xl">
 
         {/* HEADER */}
-        <h1 className="text-white text-3xl font-bold text-center">
+        <h1 className="text-[#D4AF37] 2 text-4xl font-bold text-center">
           Create Account
         </h1>
 
-        <p className="text-gray-400 text-center mt-2 mb-8">
+        <p className="text-gray-300 text-sm text-center mt-1 mb-5">
           Join the EcoCollect community today
         </p>
 
         {/* FORM */}
         <form
-          className="space-y-5"
+          className="space-y-4"
           onSubmit={handleSubmit}
         >
 
           {/* NAME */}
           <div>
 
-            <label className="text-gray-400 text-sm">
+            <label className="text-[#D4AF37] text-sm font-bold">
               NAME
             </label>
 
@@ -140,18 +128,18 @@ const Register = () => {
               value={form.name}
               onChange={handleChange}
               placeholder="Enter Name"
-              className="w-full mt-2 p-3 bg-black text-white rounded-xl border border-gray-800 focus:border-green-500 outline-none"
+              className="w-full mt-1 p-2.5 bg-white text-black rounded-lg border border-gray-800 focus:border-green-500 outline-none text-sm"
             />
 
           </div>
 
           {/* EMAIL + PHONE */}
-          <div className="grid grid-cols-2 gap-4">
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
 
             {/* EMAIL */}
             <div>
 
-              <label className="text-gray-400 text-sm">
+              <label className="text-[#D4AF37] text-sm font-bold">
                 EMAIL
               </label>
 
@@ -160,8 +148,8 @@ const Register = () => {
                 name="email"
                 value={form.email}
                 onChange={handleChange}
-                placeholder="Enter Your Email"
-                className="w-full mt-2 p-3 bg-black text-white rounded-xl border border-gray-800 focus:border-green-500 outline-none"
+                placeholder="Enter Email"
+                className="w-full mt-1 p-2.5  bg-white text-black rounded-lg border border-gray-800 focus:border-green-500 outline-none text-sm"
               />
 
             </div>
@@ -169,7 +157,7 @@ const Register = () => {
             {/* PHONE */}
             <div>
 
-              <label className="text-gray-400 text-sm">
+              <label className="text-[#D4AF37] text-sm font-bold">
                 PHONE
               </label>
 
@@ -178,8 +166,8 @@ const Register = () => {
                 name="phone"
                 value={form.phone}
                 onChange={handleChange}
-                placeholder="Enter Phone Number"
-                className="w-full mt-2 p-3 bg-black text-white rounded-xl border border-gray-800 focus:border-green-500 outline-none"
+                placeholder="Phone Number"
+                className="w-full mt-1 p-2.5  bg-white text-black rounded-lg border border-gray-800 focus:border-green-500 outline-none text-sm"
               />
 
             </div>
@@ -189,7 +177,7 @@ const Register = () => {
           {/* PASSWORD */}
           <div>
 
-            <label className="text-gray-400 text-sm">
+            <label className="text-[#D4AF37] text-sm font-bold">
               PASSWORD
             </label>
 
@@ -199,7 +187,7 @@ const Register = () => {
               value={form.password}
               onChange={handleChange}
               placeholder="Enter Password"
-              className="w-full mt-2 p-3 bg-black text-white rounded-xl border border-gray-800 focus:border-green-500 outline-none"
+              className="w-full mt-1 p-2.5 bg-white text-black rounded-lg border border-gray-800 focus:border-green-500 outline-none text-sm"
             />
 
           </div>
@@ -207,7 +195,7 @@ const Register = () => {
           {/* ADDRESS */}
           <div>
 
-            <label className="text-gray-400 text-sm">
+            <label className="text-[#D4AF37] text-sm font-bold">
               ADDRESS
             </label>
 
@@ -215,9 +203,9 @@ const Register = () => {
               name="address"
               value={form.address}
               onChange={handleChange}
-              rows="3"
+              rows="2"
               placeholder="Your Address..."
-              className="w-full mt-2 p-3 bg-black text-white rounded-xl border border-gray-800 focus:border-green-500 outline-none"
+              className="w-full mt-1 p-2.5 bg-white text-black rounded-lg border border-gray-800 focus:border-green-500 outline-none text-sm resize-none"
             />
 
           </div>
@@ -225,7 +213,7 @@ const Register = () => {
           {/* ROLE */}
           <div>
 
-            <label className="text-gray-400 text-sm">
+            <label className="text-[#D4AF37] text-   font-bold">
               ROLE
             </label>
 
@@ -233,7 +221,7 @@ const Register = () => {
               name="role"
               value={form.role}
               onChange={handleChange}
-              className="w-full mt-2 p-3 bg-black text-white rounded-xl border border-gray-800 focus:border-green-500 outline-none"
+              className="w-full mt-1 p-2.5 bg-white text-black rounded-lg border border-gray-800 focus:border-green-500 outline-none text-sm"
             >
 
               <option value="USER">
@@ -256,7 +244,7 @@ const Register = () => {
           <button
             type="submit"
             disabled={loading}
-            className="w-full bg-emerald-500 text-black font-semibold py-3 rounded-xl hover:bg-green-600"
+            className="w-full bg-[#D4AF37] text-[#14532D] font-semibold py-3 rounded-xl hover:opacity-95"
           >
 
             {loading

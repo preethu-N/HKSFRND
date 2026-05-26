@@ -123,7 +123,7 @@ const Request = ({ addRequest }) => {
   };
 
   return (
-    <div className="bg-gray-900 p-6 rounded-xl max-w-xl mx-auto">
+    <div className="bg-[#14532D] text-[#D4AF37] p-6 rounded-xl max-w-xl mx-auto">
 
       {/* HEADER */}
       <h2 className="text-xl mb-4 font-bold">
@@ -136,7 +136,7 @@ const Request = ({ addRequest }) => {
         {/* WASTE TYPE */}
         <div>
 
-          <label className="text-gray-400 text-sm">
+          <label className="text-[#14532D] text-sm">
             WASTE TYPE
           </label>
 
@@ -145,7 +145,7 @@ const Request = ({ addRequest }) => {
             onChange={(e) =>
               setType(e.target.value)
             }
-            className="w-full mt-2 p-4 bg-black text-white rounded-xl outline-none border border-gray-800 focus:border-green-500"
+            className="w-full mt-2 p-4 bg-white text-[#14532D] rounded-xl outline-none border border-[#14532D] focus:border-[#14532D]"
           >
 
             <option value="organic">
@@ -171,7 +171,7 @@ const Request = ({ addRequest }) => {
         {/* DATE */}
         <div>
 
-          <label className="text-gray-400 text-sm">
+          <label className="text-[#14532D] text-sm">
             PREFERRED DATE
           </label>
 
@@ -181,7 +181,7 @@ const Request = ({ addRequest }) => {
             onChange={(e) =>
               setDate(e.target.value)
             }
-            className="w-full mt-2 p-4 bg-black text-white rounded-xl outline-none border border-gray-800 focus:border-green-500"
+            className="w-full mt-2 p-4 bg-white text-[#14532D] rounded-xl outline-none border border-[#14532D] focus:border-[#14532D]"
           />
 
         </div>
@@ -191,7 +191,7 @@ const Request = ({ addRequest }) => {
       {/* ADDRESS */}
       <div className="mt-4">
 
-        <label className="text-gray-600">
+        <label className="text-[#14532D]">
           Pickup Address
         </label>
 
@@ -202,13 +202,13 @@ const Request = ({ addRequest }) => {
           onChange={(e) =>
             setAddress(e.target.value)
           }
-          className="w-full p-2 mb-3 bg-black rounded border border-gray-800 outline-none focus:border-green-500"
+          className="w-full p-2 mb-3 bg-white text-[#14532D] rounded border border-[#14532D] outline-none focus:border-[#14532D]"
         />
 
       </div>
 
       {/* FEE */}
-      <p className="mb-3 text-green-400">
+      <p className="mb-3 text-[#14532D]">
         Fee: ${fee}
       </p>
 
@@ -216,7 +216,7 @@ const Request = ({ addRequest }) => {
       <button
         onClick={handleSubmit}
         disabled={loading}
-        className="bg-emerald-500 text-black px-4 py-2 rounded w-full"
+        className="bg-[#D4AF37] text-[#14532D] px-4 py-2 rounded w-full hover:opacity-90"
       >
 
         {loading

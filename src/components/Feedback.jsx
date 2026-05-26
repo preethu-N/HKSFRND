@@ -56,28 +56,28 @@ const Feedback = () => {
   };
 
   return (
-    <div className="bg-[#0b0f0f] p-6 rounded-xl max-w-xl mx-auto">
-      <h2 className="text-xl mb-4">Feedback</h2>
+    <div className="bg-[#14532D] p-6 rounded-xl max-w-xl mx-auto">
+      <h2 className="text-xl mb-4 text-[#D4AF37]">Feedback</h2>
 
       <form onSubmit={handleSubmit}>
         <input
           value={subject}
           onChange={(e) => setSubject(e.target.value)}
           placeholder="Subject"
-          className="w-full p-3 mb-3 bg-black border rounded"
+          className="w-full p-3 mb-3 bg-white border rounded"
         />
 
         <textarea
           value={message}
           onChange={(e) => setMessage(e.target.value)}
           placeholder="Message"
-          className="w-full p-3 mb-3 bg-black border rounded"
+          className="w-full p-3 mb-3 bg-white border rounded"
         />
 
         <button
           type="submit"
           disabled={loading}
-          className="w-full bg-emerald-500 p-3 rounded"
+          className="w-full bg-[#D4AF37] text-[#14532D] p-3 rounded"
         >
           {loading ? "Sending..." : "Submit"}
         </button>

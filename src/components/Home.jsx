@@ -96,7 +96,7 @@ const Home = () => {
         {/* Content */}
         <div className="relative z-10 w-full max-w-3xl">
 
-          <p className="text-green-400 tracking-widest mb-4 sm:mb-7 text-sm sm:text-base">
+          <p className="text-[#15ad52] tracking-widest mb-4 sm:mb-7 text-sm sm:text-base">
             PREMIUM ENVIRONMENT CARE
           </p>
 
@@ -112,12 +112,12 @@ const Home = () => {
 
             <Link
               to="/sign"
-              className="bg-emerald-500 text-black font-bold px-6 py-3 rounded-full text-center"
+              className="bg-[#D4AF37] text-[#14532D] font-bold hover:bg-[#14532D] hover:text-white px-6 py-3 rounded-full text-center"
             >
               Get Started
             </Link>
 
-            <button className="border border-gray-300 font-bold px-6 py-3 rounded-full">
+            <button className="border border-[#14532D] font-bold px-6 py-3 rounded-full">
               Learn More
             </button>
 
@@ -133,7 +133,7 @@ const Home = () => {
                 onClick={() => setCurrent(index)}
                 className={` rounded-full cursor-pointer transition-all duration-300 ${
                   current === index
-                    ? "bg-green-400"
+                    ? "bg-[#D4AF37]"
                     : "bg-gray-500"
                 }`}
               ></div>
@@ -146,18 +146,18 @@ const Home = () => {
       </div>
 
       {/* WHY CHOOSE SECTION */}
-      <section className="clre py-16 text-center border border-emerald-500 px-5">
+      <section className="bg-[#14532D] py-16 text-center border border-black px-5">
 
-        <h2 className="text-3xl sm:text-4xl lg:text-5xl font-bold mt-10 sm:mt-15">
-          Why Choose <span className="text-emerald-500">EcoCollect?</span>
+        <h2 className="text-3xl sm:text-4xl lg:text-6xl font-bold mt-10 sm:mt-15 text-white">
+          Why Choose <span className="text-[#D4AF37]">EcoCollect?</span>
         </h2>
 
-        <p className="text-gray-400 mt-5 max-w-2xl mx-auto text-sm sm:text-base">
+        <p className="text-gray-300 mt-5 max-w-2xl mx-auto text-sm sm:text-base">
           We provide the most advanced waste management infrastructure
           for modern cities and conscious citizens.
         </p>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 sm:gap-12 mt-16 sm:mt-20 lg:mt-26 px-0 sm:px-6 lg:px-20 pb-10 sm:pb-17">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 sm:gap-12 mt-16 sm:mt-20 lg:mt-26 px-0 sm:px-6 lg:px-20 pb-10 sm:pb-17 hover:shadow-cyan-600">
 
           {[
             {
@@ -179,7 +179,7 @@ const Home = () => {
 
             <div
               key={i}
-              className="bg-black border border-gray-800 p-6 sm:p-8 rounded-xl 
+              className="bg-[#D4AF37] border border-black p-6 sm:p-8 rounded-xl 
               hover:border-emerald-500 transition-all duration-100 
               hover:-translate-y-2 hover:shadow-lg"
             >
@@ -187,20 +187,20 @@ const Home = () => {
               {/* ICON */}
               <div
                 className="w-12 h-12 flex items-center justify-center 
-                bg-emerald-500/10 backdrop-blur-md 
-                text-emerald-400 rounded-lg mb-4 
-                border border-emerald-500/20 mx-auto md:mx-0"
+                bg-[#14532D] backdrop-blur-md 
+                text-[#D4AF37] rounded-lg mb-4 
+                border border-[#D4AF37]/20 mx-auto md:mx-0"
               >
                 {item.icon}
               </div>
 
               {/* TITLE */}
-              <h3 className="text-lg font-extrabold text-white">
+              <h3 className="text-2xl font-extrabold text-[#14532D]">
                 {item.title}
               </h3>
 
               {/* DESC */}
-              <p className="text-gray-400 mt-2 text-sm">
+              <p className="text-black mt-2 text-sm">
                 {item.desc}
               </p>
 
@@ -212,27 +212,27 @@ const Home = () => {
       </section>
 
       {/* STATS SECTION */}
-      <section className="bg-emerald-500 text-black py-16 sm:py-24 px-5">
+      <section className="bg-[#D4AF37] text-black py-16 sm:py-24 px-5">
 
         <div className="grid grid-cols-2 lg:grid-cols-4 text-center gap-8 mt-5">
 
           <div>
-            <h3 className="text-3xl sm:text-5xl font-extrabold">10k+</h3>
+            <h3 className="text-4xl sm:text-6xl font-extrabold">10k+</h3>
             <p className="text-sm sm:text-base">Happy Clients</p>
           </div>
 
           <div>
-            <h3 className="text-3xl sm:text-5xl font-extrabold">50t</h3>
+            <h3 className="text-4xl sm:text-6xl font-extrabold">50t</h3>
             <p className="text-sm sm:text-base">Waste Collected</p>
           </div>
 
           <div>
-            <h3 className="text-3xl sm:text-5xl font-extrabold">15</h3>
+            <h3 className="text-4xl sm:text-6xl font-extrabold">15</h3>
             <p className="text-sm sm:text-base">Cities Covered</p>
           </div>
 
           <div>
-            <h3 className="text-3xl sm:text-5xl font-extrabold">24/7</h3>
+            <h3 className="text-4xl sm:text-6xl font-extrabold">24/7</h3>
             <p className="text-sm sm:text-base">Support</p>
           </div>
 
@@ -240,7 +240,7 @@ const Home = () => {
       </section>
 
       {/* FOOTER */}
-      <footer className="py-6 border-t border-gray-800 px-5 sm:px-10">
+      <footer className="py-6 border-t-2 border-black bg-[#14532D] px-5 sm:px-10">
 
         <div className="flex flex-col lg:flex-row justify-between items-center gap-8 pb-10 sm:pb-20">
 
@@ -255,11 +255,11 @@ const Home = () => {
 
             <div className="flex flex-col">
 
-              <h1 className="text-green-400 font-bold">
+              <h1 className="text-[#D4AF37] font-bold">
                 ECOCOLLECT
               </h1>
 
-              <p className="text-gray-400 text-sm sm:text-m max-w-md">
+              <p className="text-emerald-100 text-sm sm:text-m max-w-md">
                 Leading the way in sustainable urban waste
                 management solutions.
               </p>
@@ -269,11 +269,11 @@ const Home = () => {
           </div>
 
           {/* RIGHT */}
-          <div className="flex flex-wrap justify-center gap-6 sm:gap-8 text-sm sm:text-m text-gray-400 mt-5 lg:mt-15">
+          <div className="flex flex-wrap justify-center gap-6 sm:gap-8 text-sm sm:text-m text-emerald-200 mt-5 lg:mt-15">
 
-            <a href="#">Privacy</a>
-            <a href="#">Terms</a>
-            <a href="#">Contact</a>
+            <a href="#" className="hover:text-white">Privacy</a>
+            <a href="#" className="hover:text-white">Terms</a>
+            <a href="#" className="hover:text-white">Contact</a>
 
           </div>
 
