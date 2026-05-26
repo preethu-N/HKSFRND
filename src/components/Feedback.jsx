@@ -63,14 +63,14 @@ const Feedback = () => {
         <input
           value={subject}
           onChange={(e) => setSubject(e.target.value)}
-          placeholder="Subject"
+          placeholder=" Enter Subject"
           className="w-full p-3 mb-3 bg-white border rounded"
         />
 
         <textarea
           value={message}
           onChange={(e) => setMessage(e.target.value)}
-          placeholder="Message"
+          placeholder=" Enter Message"
           className="w-full p-3 mb-3 bg-white border rounded"
         />
 

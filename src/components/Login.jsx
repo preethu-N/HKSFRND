@@ -1,11 +1,17 @@
 import React, { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 
+import { Toaster, toast } from "react-hot-toast";
+
+import { Eye, EyeOff } from "lucide-react";
+
 const Login = () => {
 
   const navigate = useNavigate();
 
   const [loading, setLoading] = useState(false);
+
+  const [showPassword, setShowPassword] = useState(false);
 
   const [form, setForm] = useState({
     email: "",
@@ -31,8 +37,11 @@ const Login = () => {
 
     e.preventDefault();
 
+    // VALIDATION
     if (!form.email || !form.password) {
-      console.log("Please fill all fields");
+
+      toast.error("Please fill all fields");
+
       return;
     }
 
@@ -60,8 +69,13 @@ const Login = () => {
 
       console.log("LOGIN DATA =", data);
 
+      // ERROR
       if (!response.ok) {
-        console.log(data.error || "Invalid Credentials");
+
+        toast.error(
+          data.error || "Invalid Credentials"
+        );
+
         return;
       }
 
@@ -89,7 +103,8 @@ const Login = () => {
 
       }
 
-      console.log("Login Successful");
+      // SUCCESS MESSAGE
+      toast.success("Login is Successful");
 
       // =========================
       // ROLE NAVIGATION
@@ -97,23 +112,29 @@ const Login = () => {
       const role =
         data.user?.role?.toLowerCase();
 
-      if (role === "staff") {
+      setTimeout(() => {
 
-        navigate("/staff");
+        if (role === "staff") {
 
-      } else if (role === "admin") {
+          navigate("/staff");
 
-        navigate("/admindash");
+        } else if (role === "admin") {
 
-      } else {
+          navigate("/admindash");
 
-        navigate("/dashboard");
+        } else {
 
-      }
+          navigate("/dashboard");
+
+        }
+
+      }, 1500);
 
     } catch (error) {
 
       console.log("Login Error:", error);
+
+      toast.error("Something went wrong");
 
     } finally {
 
@@ -125,6 +146,20 @@ const Login = () => {
   return (
 
     <div className="min-h-screen bg-[#F8FAF7] flex items-center justify-center px-4 text-[#D4AF37] border-2 border-green-900">
+
+      {/* TOASTER */}
+      <Toaster
+        position="top-center"
+        toastOptions={{
+          style: {
+            background: "#14532D",
+            color: "#D4AF37",
+            border: "2px solid #D4AF37",
+            borderRadius: "12px",
+            fontWeight: "bold",
+          },
+        }}
+      />
 
       <div className="w-95 max-w-xl bg-[#14532D] border-2 border-[#D4AF37] rounded-3xl p-9 shadow-2xl">
 
@@ -176,14 +211,41 @@ const Login = () => {
 
             </label>
 
-            <input
-              type="password"
-              name="password"
-              value={form.password}
-              onChange={handleChange}
-              placeholder="••••••••"
-              className="w-full px-5 py-3 rounded-xl bg-white border border-gray-800 text-black focus:border-green-500 outline-none"
-            />
+            <div className="relative">
+
+              <input
+                type={
+                  showPassword
+                    ? "text"
+                    : "password"
+                }
+                name="password"
+                value={form.password}
+                onChange={handleChange}
+                placeholder="••••••••"
+                className="w-full px-5 py-3 rounded-xl bg-white border border-gray-800 text-black focus:border-green-500 outline-none pr-14"
+              />
+
+              {/* EYE ICON */}
+              <button
+                type="button"
+                onClick={() =>
+                  setShowPassword(
+                    !showPassword
+                  )
+                }
+                className="absolute right-4 top-1/2 -translate-y-1/2 text-gray-700"
+              >
+
+                {showPassword ? (
+                  <EyeOff size={22} />
+                ) : (
+                  <Eye size={22} />
+                )}
+
+              </button>
+
+            </div>
 
           </div>
 
@@ -194,7 +256,9 @@ const Login = () => {
             className="w-full bg-[#D4AF37] hover:bg-[#14532D] text-[#14532D] hover:text-[#D4AF37] font-extrabold py-3 rounded-xl border-2 border-emerald-900"
           >
 
-            {loading ? "Logging in..." : "LOGIN"}
+            {loading
+              ? "Logging in..."
+              : "LOGIN"}
 
           </button>
 

@@ -62,7 +62,7 @@ const History = () => {
 
             <tr>
 
-              <th className="p-2 sm:p-3">
+              <th className="p-3 sm:p-3">
                 ID
               </th>
 
@@ -70,20 +70,16 @@ const History = () => {
                 Type
               </th>
 
-              <th className="p-2 sm:p-3">
+              <th className="p-3 sm:p-3">
                 Date
               </th>
 
-              <th className="p-2 sm:p-3">
+              <th className="p-3 sm:p-3">
                 Status
               </th>
 
-              <th className="p-2 sm:p-3">
+              <th className="p-3 sm:p-3">
                 Payment
-              </th>
-
-              <th className="p-2 sm:p-3">
-                Action
               </th>
 
             </tr>
@@ -174,16 +170,6 @@ const History = () => {
                     )}
 
                   </td>
-
-                  {/* ACTION */}
-                  <td className="p-2 sm:p-3 whitespace-nowrap">
-
-                    <button className="text-emerald-400 text-xs sm:text-sm hover:underline">
-                      View Details
-                    </button>
-
-                  </td>
-
                 </tr>
               ))
             )}

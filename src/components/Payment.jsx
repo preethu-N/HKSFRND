@@ -35,7 +35,7 @@ const Payment = () => {
       {loading ? (
         <p className="text-gray-400">Loading payments...</p>
       ) : payments.length === 0 ? (
-        <p className="text-gray-400">No payment history found.</p>
+        <p className="text-white">No payment history found.</p>
       ) : (
         <div className="space-y-4">
           {payments.map((payment) => (

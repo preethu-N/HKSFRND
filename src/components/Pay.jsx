@@ -122,7 +122,7 @@ const Pay = () => {
             onClick={() =>
               navigate(-1)
             }
-            className="text-sm text-gray-400 hover:text-white"
+            className="text-sm text-white hover:text-white"
           >
             Back
           </button>
@@ -150,7 +150,7 @@ const Pay = () => {
               Total
             </span>
 
-            <span className="text-2xl font-bold text-green-500">
+            <span className="text-2xl font-bold text-[#14532D]">
               ${fee}
             </span>
 
@@ -224,7 +224,7 @@ const Pay = () => {
         </div>
 
         {/* FOOTER */}
-        <p className="text-center text-xs text-gray-600 mt-5">
+        <p className="text-center text-xs text-white mt-5">
 
           Encrypted & Secure
           Payment using PayPal

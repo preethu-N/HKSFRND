@@ -2,11 +2,15 @@ import React, { useState } from "react";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
 
+import { Eye, EyeOff } from "lucide-react";
+
 const Register = () => {
 
   const navigate = useNavigate();
 
   const [loading, setLoading] = useState(false);
+
+  const [showPassword, setShowPassword] = useState(false);
 
   const [form, setForm] = useState({
     name: "",
@@ -39,6 +43,7 @@ const Register = () => {
     ) {
 
       alert("Please fill all fields");
+
       return;
 
     }
@@ -149,7 +154,7 @@ const Register = () => {
                 value={form.email}
                 onChange={handleChange}
                 placeholder="Enter Email"
-                className="w-full mt-1 p-2.5  bg-white text-black rounded-lg border border-gray-800 focus:border-green-500 outline-none text-sm"
+                className="w-full mt-1 p-2.5 bg-white text-black rounded-lg border border-gray-800 focus:border-green-500 outline-none text-sm"
               />
 
             </div>
@@ -167,7 +172,7 @@ const Register = () => {
                 value={form.phone}
                 onChange={handleChange}
                 placeholder="Phone Number"
-                className="w-full mt-1 p-2.5  bg-white text-black rounded-lg border border-gray-800 focus:border-green-500 outline-none text-sm"
+                className="w-full mt-1 p-2.5 bg-white text-black rounded-lg border border-gray-800 focus:border-green-500 outline-none text-sm"
               />
 
             </div>
@@ -181,14 +186,41 @@ const Register = () => {
               PASSWORD
             </label>
 
-            <input
-              type="password"
-              name="password"
-              value={form.password}
-              onChange={handleChange}
-              placeholder="Enter Password"
-              className="w-full mt-1 p-2.5 bg-white text-black rounded-lg border border-gray-800 focus:border-green-500 outline-none text-sm"
-            />
+            <div className="relative">
+
+              <input
+                type={
+                  showPassword
+                    ? "text"
+                    : "password"
+                }
+                name="password"
+                value={form.password}
+                onChange={handleChange}
+                placeholder="Enter Password"
+                className="w-full mt-1 p-2.5 bg-white text-black rounded-lg border border-gray-800 focus:border-green-500 outline-none text-sm pr-12"
+              />
+
+              {/* EYE ICON */}
+              <button
+                type="button"
+                onClick={() =>
+                  setShowPassword(
+                    !showPassword
+                  )
+                }
+                className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-700"
+              >
+
+                {showPassword ? (
+                  <EyeOff size={20} />
+                ) : (
+                  <Eye size={20} />
+                )}
+
+              </button>
+
+            </div>
 
           </div>
 
@@ -213,7 +245,7 @@ const Register = () => {
           {/* ROLE */}
           <div>
 
-            <label className="text-[#D4AF37] text-   font-bold">
+            <label className="text-[#D4AF37] font-bold">
               ROLE
             </label>
 
