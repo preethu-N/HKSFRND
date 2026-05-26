@@ -8,7 +8,12 @@ import {
 } from "react-leaflet";
 
 import "leaflet/dist/leaflet.css";
+
 import L from "leaflet";
+
+import {
+  OpenStreetMapProvider,
+} from "leaflet-geosearch";
 
 import markerIcon2x from "leaflet/dist/images/marker-icon-2x.png";
 import markerIcon from "leaflet/dist/images/marker-icon.png";
@@ -24,29 +29,34 @@ const Recenter = ({ lat, lng }) => {
   const map = useMap();
 
   useEffect(() => {
-    map.setView([lat, lng], 15);
-  }, [lat, lng, map]);
+    map.setView([lat, lng], 14);
+  }, [lat, lng]);
 
   return null;
 };
 
 const Tracking = () => {
+
   const [location, setLocation] = useState({
-    lat: 10.0,
-    lng: 76.0,
+    lat: 10.8505,
+    lng: 76.2711,
   });
 
   const [address, setAddress] = useState("");
 
+  const provider = new OpenStreetMapProvider();
+
   // =========================
-  // FETCH STAFF LOCATION
+  // FETCH BOOKING LOCATION
   // =========================
-  const fetchTracking = async () => {
+  const fetchBookingLocation = async () => {
+
     try {
+
       const token = localStorage.getItem("access");
 
       const res = await fetch(
-        "https://preethu17.pythonanywhere.com/api/tracking/",
+        "https://preethu17.pythonanywhere.com/api/booking/",
         {
           headers: {
             Authorization: `Bearer ${token}`,
@@ -54,104 +64,61 @@ const Tracking = () => {
         }
       );
 
-      if (!res.ok) throw new Error("API Error");
-
       const data = await res.json();
 
-      // If API returns array
+      console.log("BOOKINGS =", data);
+
       if (Array.isArray(data) && data.length > 0) {
-        setLocation({
-          lat: data[0].latitude,
-          lng: data[0].longitude,
+
+        // latest booking
+        const latestBooking = data[data.length - 1];
+
+        const bookingAddress = latestBooking.address;
+
+        setAddress(bookingAddress);
+
+        // convert address -> lat lng
+        const results = await provider.search({
+          query: bookingAddress,
         });
-      }
 
-      // If API returns single object
-      else if (data.latitude && data.longitude) {
-        setLocation({
-          lat: data.latitude,
-          lng: data.longitude,
-        });
-      }
+        if (results.length > 0) {
 
-    } catch (err) {
-      console.log("Tracking Error:", err);
-    }
-  };
+          setLocation({
+            lat: results[0].y,
+            lng: results[0].x,
+          });
 
-  // =========================
-  // SEARCH ADDRESS
-  // =========================
-  const searchLocation = async () => {
-    if (!address) return;
-
-    try {
-      const res = await fetch(
-        `https://nominatim.openstreetmap.org/search?format=json&q=${address}`
-      );
-
-      const data = await res.json();
-
-      if (data.length > 0) {
-        setLocation({
-          lat: parseFloat(data[0].lat),
-          lng: parseFloat(data[0].lon),
-        });
-      } else {
-        alert("Location not found");
+        }
       }
 
     } catch (err) {
-      console.log("Search Error:", err);
+      console.log("Tracking Error =", err);
     }
   };
 
-  // =========================
-  // AUTO REFRESH
-  // =========================
   useEffect(() => {
-    fetchTracking();
 
-    const interval = setInterval(fetchTracking, 5000);
+    fetchBookingLocation();
 
-    return () => clearInterval(interval);
   }, []);
 
   return (
     <div>
 
       <h2 className="text-2xl font-bold mb-4">
-        Live Tracking Map
+        Booking Location Tracking
       </h2>
 
-      {/* SEARCH BAR */}
-      <div className="flex gap-2 mb-4">
-
-        <input
-          type="text"
-          placeholder="Enter address..."
-          value={address}
-          onChange={(e) => setAddress(e.target.value)}
-          className="border px-4 py-2 rounded w-full text-black"
-        />
-
-        <button
-          onClick={searchLocation}
-          className="bg-green-600 text-white px-4 py-2 rounded"
-        >
-          Search
-        </button>
-
-      </div>
-
-      {/* MAP */}
       <MapContainer
         center={[location.lat, location.lng]}
-        zoom={15}
+        zoom={14}
         className="h-96 w-full rounded-xl"
       >
 
-        <TileLayer url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png" />
+        <TileLayer
+          url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
+        />
 
         <Recenter
           lat={location.lat}
@@ -159,16 +126,23 @@ const Tracking = () => {
         />
 
         <Marker position={[location.lat, location.lng]}>
+
           <Popup>
-            Selected Location
+
+            Booking Location <br />
+
+            {address}
+
           </Popup>
+
         </Marker>
 
       </MapContainer>
 
-      {/* COORDINATES */}
-      <div className="mt-4 text-gray-400">
-        Lat: {location.lat} | Lng: {location.lng}
+      <div className="mt-4 text-black font-semibold">
+
+        Address: {address}
+
       </div>
 
     </div>
