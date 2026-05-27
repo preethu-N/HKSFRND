@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
+import Swal from "sweetalert2";
 
 import { Eye, EyeOff } from "lucide-react";
 
@@ -42,7 +43,12 @@ const Register = () => {
       !form.address
     ) {
 
-      alert("Please fill all fields");
+      Swal.fire({
+        title: "Warning",
+        text: "Please fill all fields",
+        icon: "warning",
+        confirmButtonColor: "#14532D",
+      });
 
       return;
 
@@ -66,7 +72,12 @@ const Register = () => {
 
       console.log(response.data);
 
-      alert("Registration Successful");
+      Swal.fire({
+        title: "Success",
+        text: "Registration Successful",
+        icon: "success",
+        confirmButtonColor: "#14532D",
+      });
 
       localStorage.setItem(
         "user",
@@ -88,9 +99,12 @@ const Register = () => {
 
       console.log(err);
 
-      alert(
-        JSON.stringify(err.response?.data)
-      );
+      Swal.fire({
+        title: "Error",
+        text: JSON.stringify(err.response?.data || "Registration Failed"),
+        icon: "error",
+        confirmButtonColor: "#14532D",
+      });
 
     } finally {
 

@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { LogOut, Search, Check, X, RefreshCw } from "lucide-react";
 import { useNavigate } from "react-router-dom";
+import Swal from "sweetalert2";
 
 const AdminDashboard = () => {
   const navigate = useNavigate();
@@ -140,11 +141,21 @@ const AdminDashboard = () => {
 
         <button
           onClick={() => {
-            if (window.confirm("Logout?")) {
-              localStorage.removeItem("access");
-              localStorage.removeItem("user");
-              navigate("/login");
-            }
+            Swal.fire({
+              title: "Logout?",
+              text: "Are you sure you want to logout?",
+              icon: "question",
+              showCancelButton: true,
+              confirmButtonColor: "#14532D",
+              cancelButtonColor: "#d33",
+              confirmButtonText: "Yes, logout",
+            }).then((result) => {
+              if (result.isConfirmed) {
+                localStorage.removeItem("access");
+                localStorage.removeItem("user");
+                navigate("/login");
+              }
+            });
           }}
           className="flex items-center gap-2 hover:text-red-400 transition"
         >

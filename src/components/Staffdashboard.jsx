@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
+import Swal from "sweetalert2";
 import { Bell, Clock3, MapPin } from "lucide-react";
 import Tracking from "./Tracking";
 
@@ -139,11 +140,21 @@ const StaffDashboard = () => {
   // LOGOUT
   // =========================
   const handleLogout = () => {
-    if (window.confirm("Logout?")) {
-      localStorage.removeItem("access");
-      localStorage.removeItem("user");
-      navigate("/login");
-    }
+    Swal.fire({
+      title: "Logout?",
+      text: "Are you sure you want to logout?",
+      icon: "question",
+      showCancelButton: true,
+      confirmButtonColor: "#14532D",
+      cancelButtonColor: "#d33",
+      confirmButtonText: "Yes, logout",
+    }).then((result) => {
+      if (result.isConfirmed) {
+        localStorage.removeItem("access");
+        localStorage.removeItem("user");
+        navigate("/login");
+      }
+    });
   };
 
   // =========================

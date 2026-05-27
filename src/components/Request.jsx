@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
+import Swal from "sweetalert2";
 
 const Request = ({ addRequest }) => {
 
@@ -46,7 +47,12 @@ const Request = ({ addRequest }) => {
 
     if (!date || !address) {
 
-      alert("Please fill all fields");
+      Swal.fire({
+        title: "Warning",
+        text: "Please fill all fields",
+        icon: "warning",
+        confirmButtonColor: "#14532D",
+      });
 
       return;
     }
@@ -103,7 +109,7 @@ const Request = ({ addRequest }) => {
       // REDIRECT PAYMENT
       // =========================
       navigate("/pay", {
-        state: { fee },
+        state: { fee, type },
       });
 
     } catch (error) {
@@ -113,7 +119,12 @@ const Request = ({ addRequest }) => {
         error
       );
 
-      alert("Request Failed");
+      Swal.fire({
+        title: "Error",
+        text: "Request Failed",
+        icon: "error",
+        confirmButtonColor: "#14532D",
+      });
 
     } finally {
 

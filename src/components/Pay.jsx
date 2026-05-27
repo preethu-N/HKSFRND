@@ -9,6 +9,7 @@ import {
   useNavigate,
   useLocation,
 } from "react-router-dom";
+import Swal from "sweetalert2";
 
 const Pay = () => {
 
@@ -17,6 +18,7 @@ const Pay = () => {
   const location = useLocation();
 
   const fee = location.state?.fee || 0;
+  const type = location.state?.type || "PayPal";
 
   // =========================
   // PAYMENT SUCCESS
@@ -43,7 +45,7 @@ const Pay = () => {
       // =========================
       const paymentData = {
         user: user?.id,
-        payment_type: "PayPal",
+        payment_type: type,
         amount: fee,
         card_number: "PAYPAL",
         expiry: "N/A",
@@ -55,7 +57,7 @@ const Pay = () => {
       // SAVE TO DJANGO
       // =========================
       const response = await fetch(
-        "https://preethu17.pythonanywhere.com/api/payment/",
+        "https://preethu17.pythonanywhere.com/api/payment/payments/",
         {
           method: "POST",
           headers: {
@@ -74,9 +76,12 @@ const Pay = () => {
 
         console.log(error);
 
-        alert(
-          "Payment saved failed"
-        );
+        Swal.fire({
+          title: "Error",
+          text: "Payment saved failed",
+          icon: "error",
+          confirmButtonColor: "#14532D",
+        });
 
         return;
       }
@@ -86,7 +91,12 @@ const Pay = () => {
 
       console.log(result);
 
-      alert("Payment Successful");
+      Swal.fire({
+        title: "Success",
+        text: "Payment Successful",
+        icon: "success",
+        confirmButtonColor: "#14532D",
+      });
 
       // Redirect
       navigate("/dashboard");
@@ -98,7 +108,12 @@ const Pay = () => {
         error
       );
 
-      alert("Payment Failed");
+      Swal.fire({
+        title: "Error",
+        text: "Payment Failed",
+        icon: "error",
+        confirmButtonColor: "#14532D",
+      });
 
     }
 
@@ -211,9 +226,12 @@ const Pay = () => {
 
                 console.log(err);
 
-                alert(
-                  "Payment Failed"
-                );
+                Swal.fire({
+                  title: "Error",
+                  text: "Payment Failed",
+                  icon: "error",
+                  confirmButtonColor: "#14532D",
+                });
 
               }}
 

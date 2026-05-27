@@ -4,6 +4,7 @@ import Payment from "./Payment";
 import Feedback from "./Feedback";
 import History from "./History";
 import { Link, useNavigate } from "react-router-dom";
+import Swal from "sweetalert2";
 
 const Card = ({ title, value }) => (
   <div className="bg-[#113723] p-4 rounded-xl w-full">
@@ -94,11 +95,21 @@ const Dashboard = () => {
 
   // ================= LOGOUT =================
   const handleLogout = () => {
-    if (window.confirm("Logout?")) {
-      localStorage.removeItem("user");
-      localStorage.removeItem("access");
-      navigate("/login");
-    }
+    Swal.fire({
+      title: "Logout?",
+      text: "Are you sure you want to logout?",
+      icon: "question",
+      showCancelButton: true,
+      confirmButtonColor: "#14532D",
+      cancelButtonColor: "#d33",
+      confirmButtonText: "Yes, logout",
+    }).then((result) => {
+      if (result.isConfirmed) {
+        localStorage.removeItem("user");
+        localStorage.removeItem("access");
+        navigate("/login");
+      }
+    });
   };
 
   // ================= REQUEST =================
