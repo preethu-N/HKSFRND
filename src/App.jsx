@@ -1,4 +1,3 @@
-import { useState } from 'react'
 import { BrowserRouter, Routes, Route } from 'react-router-dom'
 import { Navigate } from "react-router-dom";
 
@@ -20,7 +19,6 @@ import Complaint from './components/Complaint'
 
 
 function App() {
-  const [count, setCount] = useState(0)
 
   return (
     

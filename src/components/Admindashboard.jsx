@@ -80,21 +80,6 @@ const AdminDashboard = () => {
       });
   };
 
-  const rejectBooking = (id) => {
-    fetch(`${API}/bookings/${id}/reject/`, {
-      method: "PATCH",
-      headers: {
-        Authorization: `Bearer ${token}`,
-      },
-    })
-      .then((res) => res.json())
-      .then((updated) => {
-        setBookings((prev) =>
-          prev.map((b) => (b.id === id ? updated : b))
-        );
-      });
-  };
-
   // ---------------- COMPLAINT ACTIONS ----------------
   const resolveComplaint = (id) => {
     fetch(`${API}/complaints/${id}/resolve/`, {

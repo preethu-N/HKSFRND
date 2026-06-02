@@ -278,9 +278,7 @@ const Register = () => {
                 Staff
               </option>
 
-              <option value="ADMIN">
-                Admin
-              </option>
+             
 
             </select>
 
