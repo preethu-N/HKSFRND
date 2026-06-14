@@ -27,14 +27,14 @@ const Request = ({ addRequest }) => {
       type === "Hazardous"
     ) {
 
-      setFee(15);
+      setFee(50);
 
     } else if (
       type === "plastic" ||
       type === "paper/cardboard"
     ) {
 
-      setFee(20);
+      setFee(50);
 
     }
 
@@ -78,7 +78,7 @@ const Request = ({ addRequest }) => {
       // =========================
       const token = localStorage.getItem("access");
       const response = await fetch(
-        "https://preethu17.pythonanywhere.com/api/request/",
+        "http://127.0.0.1:8000/api/request/",
         {
           method: "POST",
 
@@ -91,8 +91,28 @@ const Request = ({ addRequest }) => {
         }
       );
 
-      const savedRequest =
-        await response.json();
+      let savedRequest;
+      if (!response.ok) {
+        const text = await response.text();
+        let errMsg = "Failed to submit request to server";
+        
+        // Extract Django exception description
+        const exceptionMatch = text.match(/<pre class="exception_value">([\s\S]*?)<\/pre>/i);
+        const titleMatch = text.match(/<title>([\s\S]*?)<\/title>/i);
+        
+        if (exceptionMatch && exceptionMatch[1]) {
+          errMsg = exceptionMatch[1].replace(/&lt;/g, "<").replace(/&gt;/g, ">").trim();
+        } else if (titleMatch && titleMatch[1]) {
+          errMsg = titleMatch[1].trim();
+        } else {
+          errMsg = `Server Error: ${response.status} ${response.statusText}`;
+        }
+        
+        console.error("Server 500 error content:", text);
+        throw new Error(errMsg);
+      } else {
+        savedRequest = await response.json();
+      }
 
       console.log(savedRequest);
 
@@ -121,7 +141,7 @@ const Request = ({ addRequest }) => {
 
       Swal.fire({
         title: "Error",
-        text: "Request Failed",
+        text: error.message || "Request Failed",
         icon: "error",
         confirmButtonColor: "#14532D",
       });
@@ -134,7 +154,7 @@ const Request = ({ addRequest }) => {
   };
 
   return (
-    <div className="bg-[#14532D] text-[#D4AF37] p-6 rounded-xl max-w-xl mx-auto">
+    <div className="bg-[#14532D] text-white p-6 rounded-xl max-w-xl mx-auto">
 
       {/* HEADER */}
       <h2 className="text-xl mb-4 font-bold">
@@ -142,12 +162,12 @@ const Request = ({ addRequest }) => {
       </h2>
 
       {/* FORM GRID */}
-      <div className="grid grid-cols-2 gap-4">
+      <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
 
         {/* WASTE TYPE */}
         <div>
 
-          <label className="text-[#14532D] text-sm">
+          <label className="text-white text-xs font-bold uppercase tracking-wider">
             WASTE TYPE
           </label>
 
@@ -182,7 +202,7 @@ const Request = ({ addRequest }) => {
         {/* DATE */}
         <div>
 
-          <label className="text-[#14532D] text-sm">
+          <label className="text-white text-xs font-bold uppercase tracking-wider">
             PREFERRED DATE
           </label>
 
@@ -202,7 +222,7 @@ const Request = ({ addRequest }) => {
       {/* ADDRESS */}
       <div className="mt-4">
 
-        <label className="text-[#14532D]">
+        <label className="text-white text-xs font-bold uppercase tracking-wider block mb-1">
           Pickup Address
         </label>
 
@@ -219,15 +239,15 @@ const Request = ({ addRequest }) => {
       </div>
 
       {/* FEE */}
-      <p className="mb-3 text-[#14532D]">
-        Fee: ${fee}
+      <p className="mb-3 text-white text-lg font-bold">
+        Fee: <span className="text-green-300">₹{fee}</span>
       </p>
 
       {/* BUTTON */}
       <button
         onClick={handleSubmit}
         disabled={loading}
-        className="bg-[#D4AF37] text-[#14532D] px-4 py-2 rounded w-full hover:opacity-90"
+        className="bg-white text-[#14532D] px-4 py-2 rounded w-full font-bold hover:bg-green-100 transition"
       >
 
         {loading

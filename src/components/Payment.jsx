@@ -8,7 +8,7 @@ const Payment = () => {
     const fetchPayments = async () => {
       try {
         const token = localStorage.getItem("access");
-        const response = await fetch("https://preethu17.pythonanywhere.com/api/payment/payments/", {
+        const response = await fetch("http://127.0.0.1:8000/api/payment/payments/", {
           headers: {
             Authorization: `Bearer ${token}`
           }
@@ -30,7 +30,7 @@ const Payment = () => {
 
   return (
     <div className="bg-[#14532D] p-6 rounded-xl max-w-2xl mx-auto">
-      <h2 className="text-xl font-bold mb-6 text-[#D4AF37]">Payment History</h2>
+      <h2 className="text-xl font-bold mb-6 text-white">Payment History</h2>
       
       {loading ? (
         <p className="text-gray-400">Loading payments...</p>
@@ -42,7 +42,7 @@ const Payment = () => {
             <div key={payment.id} className="bg-white p-5 rounded-xl flex justify-between items-center border border-gray-800 hover:border-emerald-500 transition-colors">
               <div>
                 <h3 className="font-bold text-black text-lg">{payment.payment_type || "Waste Collection Fee"}</h3>
-                <p className="text-sm text-gray-400 mt-1">
+                <p className="text-sm text-gray-600 mt-1">
                   {payment.created_at ? new Date(payment.created_at).toLocaleDateString() : new Date().toLocaleDateString()}
                 </p>
                 {payment.card_number && (
@@ -50,8 +50,8 @@ const Payment = () => {
                 )}
               </div>
               <div className="text-right">
-                <p className="text-2xl font-bold text-emerald-400">₹{payment.amount}</p>
-                <span className={`inline-block mt-2 text-xs px-3 py-1 rounded-full ${payment.status === 'PAID' ? 'bg-emerald-900 text-emerald-300' : 'bg-yellow-900 text-yellow-300'}`}>
+                <p className="text-2xl font-extrabold text-[#14532D]">₹{payment.amount}</p>
+                <span className={`inline-block mt-2 text-xs px-3 py-1 rounded-full ${payment.status === 'PAID' ? 'bg-emerald-900 text-emerald-300' : 'bg-slate-700 text-slate-300'}`}>
                   {payment.status}
                 </span>
               </div>

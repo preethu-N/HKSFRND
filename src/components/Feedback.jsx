@@ -28,7 +28,7 @@ const Feedback = () => {
       }
 
       const response = await fetch(
-        "https://preethu17.pythonanywhere.com/api/feedback/feedbacks/",
+        "http://127.0.0.1:8000/api/feedback/feedbacks/",
         {
           method: "POST",
 
@@ -83,7 +83,7 @@ const Feedback = () => {
   return (
     <div className="bg-[#14532D] p-6 rounded-xl max-w-xl mx-auto">
 
-      <h2 className="text-xl mb-4 text-[#D4AF37]">
+      <h2 className="text-xl mb-4 text-white">
         Feedback
       </h2>
 
@@ -93,20 +93,20 @@ const Feedback = () => {
           value={subject}
           onChange={(e) => setSubject(e.target.value)}
           placeholder="Enter Subject"
-          className="w-full p-3 mb-3 bg-white border rounded"
+          className="w-full p-3 mb-3 bg-white text-slate-900 border rounded"
         />
 
         <textarea
           value={message}
           onChange={(e) => setMessage(e.target.value)}
           placeholder="Enter Message"
-          className="w-full p-3 mb-3 bg-white border rounded"
+          className="w-full p-3 mb-3 bg-white text-slate-900 border rounded"
         />
 
         <button
           type="submit"
           disabled={loading}
-          className="w-full bg-[#D4AF37] text-[#14532D] p-3 rounded"
+          className="w-full bg-white text-[#14532D] font-bold p-3 rounded hover:bg-green-100 transition"
         >
           {loading ? "Sending..." : "Submit"}
         </button>

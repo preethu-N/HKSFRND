@@ -57,7 +57,7 @@ const Pay = () => {
       // SAVE TO DJANGO
       // =========================
       const response = await fetch(
-        "https://preethu17.pythonanywhere.com/api/payment/payments/",
+        "http://127.0.0.1:8000/api/payment/payments/",
         {
           method: "POST",
           headers: {
@@ -121,7 +121,7 @@ const Pay = () => {
 
   return (
 
-    <div className="min-h-screen bg-white text-[#D4AF37] flex items-center justify-center px-4 py-10">
+    <div className="min-h-screen bg-white text-[#14532D] flex items-center justify-center px-4 py-10">
 
       {/* CARD */}
       <div className="w-full max-w-md bg-[#14532D] rounded-3xl p-6 shadow-2xl border border-gray-800">
@@ -145,28 +145,28 @@ const Pay = () => {
         </div>
 
         {/* SUMMARY */}
-        <div className="bg-[#D4AF37] rounded-2xl p-5 mt-7 border border-gray-800">
+        <div className="bg-[#113723] rounded-2xl p-5 mt-7 border border-green-800 text-white">
 
           <div className="flex justify-between items-center">
 
-            <span className="text-white text-lg font-semibold">
+            <span className="text-white/80 text-lg font-semibold">
               Service Fee
             </span>
 
-            <span className="font-semibold">
-              ${fee}
+            <span className="font-semibold text-white">
+              ₹{fee}
             </span>
 
           </div>
 
           <div className="flex justify-between items-center mt-5">
 
-            <span className="text-xl font-bold">
+            <span className="text-xl font-bold text-white">
               Total
             </span>
 
-            <span className="text-2xl font-bold text-[#14532D]">
-              ${fee}
+            <span className="text-2xl font-bold text-green-300">
+              ₹{fee}
             </span>
 
           </div>
@@ -178,8 +178,8 @@ const Pay = () => {
 
           <PayPalScriptProvider
             options={{
-              "client-id":"AZUsvstrvuqxep6tI0yquzfgqpxwdJf74Nb1CV6apndm-ehRS1l-HoC4QlrRQ9ivqpWDEXWVIf1AnHL2"
-                ,
+              "client-id":"AZUsvstrvuqxep6tI0yquzfgqpxwdJf74Nb1CV6apndm-ehRS1l-HoC4QlrRQ9ivqpWDEXWVIf1AnHL2",
+              currency: "USD",
             }}
           >
 
@@ -187,7 +187,7 @@ const Pay = () => {
 
               style={{
                 layout: "vertical",
-                color: "gold",
+                color: "white",
                 shape: "pill",
                 label: "paypal",
               }}
@@ -205,7 +205,8 @@ const Pay = () => {
                   purchase_units: [
                     {
                       amount: {
-                        value: fee,
+                        currency_code: "USD",
+                        value: fee.toString(),
                       },
                     },
                   ],

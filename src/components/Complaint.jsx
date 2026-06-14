@@ -15,7 +15,7 @@ const Complaint = () => {
       setLoading(true);
 
       const response = await fetch(
-        "https://preethu17.pythonanywhere.com/api/complaint/"
+        "http://127.0.0.1:8000/api/complaint/"
       );
 
       const data = await response.json();
@@ -41,7 +41,7 @@ const Complaint = () => {
     try {
 
       await fetch(
-        `https://preethu17.pythonanywhere.com/api/complaints/${id}/resolve`,
+        `http://127.0.0.1:8000/api/complaints/${id}/resolve`,
         {
           method: "PUT",
         }
@@ -70,7 +70,7 @@ const Complaint = () => {
     try {
 
       await fetch(
-        `https://preethu17.pythonanywhere.com/api/complaints/${id}`,
+        `http://127.0.0.1:8000/api/complaints/${id}`,
         {
           method: "DELETE",
         }
@@ -119,11 +119,11 @@ const Complaint = () => {
 
           <div
             key={complaint.id}
-            className="grid grid-cols-1 md:grid-cols-5 gap-5 px-8 py-8 border-b border-[#071311]"
+            className="grid grid-cols-1 md:grid-cols-5 gap-5 px-8 py-8 border-b border-[#071311] min-w-0"
           >
 
             {/* USER */}
-            <div>
+            <div className="min-w-0 break-words">
 
               <h2 className="text-2xl font-bold">
                 {complaint.user}
@@ -132,12 +132,12 @@ const Complaint = () => {
             </div>
 
             {/* SUBJECT */}
-            <div>
+            <div className="min-w-0 break-words">
               {complaint.subject}
             </div>
 
             {/* MESSAGE */}
-            <div>
+            <div className="min-w-0 break-words text-sm whitespace-pre-wrap">
               {complaint.message}
             </div>
 
@@ -157,18 +157,18 @@ const Complaint = () => {
             </div>
 
             {/* ACTIONS */}
-            <div className="flex gap-3">
+            <div className="flex gap-3 items-center">
 
               <button
                 onClick={() => resolveComplaint(complaint.id)}
-                className="px-5 py-2 bg-green-900 hover:bg-green-800 rounded-xl"
+                className="px-5 py-2 bg-green-900 hover:bg-green-800 rounded-xl transition duration-300"
               >
                 Resolve
               </button>
 
               <button
                 onClick={() => deleteComplaint(complaint.id)}
-                className="px-5 py-2 bg-red-900 hover:bg-red-800 rounded-xl"
+                className="px-5 py-2 bg-red-900 hover:bg-red-800 rounded-xl transition duration-300"
               >
                 Delete
               </button>

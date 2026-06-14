@@ -3,13 +3,32 @@ import Request from "./Request";
 import Payment from "./Payment";
 import Feedback from "./Feedback";
 import History from "./History";
-import { Link, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import Swal from "sweetalert2";
+import { 
+  BarChart3, 
+  PlusCircle, 
+  History as HistoryIcon, 
+  CreditCard, 
+  MessageSquare, 
+  LogOut, 
+  Menu, 
+  X,
+  PhoneCall,
+  Clock,
+  CheckCircle,
+  Star
+} from "lucide-react";
 
-const Card = ({ title, value }) => (
-  <div className="bg-[#113723] p-4 rounded-xl w-full">
-    <h2 className="text-[#D4AF37] text-sm mb-2">{title}</h2>
-    <p className="text-2xl font-bold">{value}</p>
+const Card = ({ title, value, gradientClass, icon: Icon }) => (
+  <div className={`p-6 rounded-2xl shadow-lg flex items-center justify-between text-white transition-all duration-300 transform hover:scale-[1.02] hover:shadow-xl ${gradientClass}`}>
+    <div>
+      <h2 className="text-white/80 text-xs font-semibold uppercase tracking-wider mb-1">{title}</h2>
+      <p className="text-3xl font-extrabold tracking-tight">{value}</p>
+    </div>
+    <div className="bg-white/10 p-3 rounded-xl backdrop-blur-sm">
+      {Icon && <Icon size={24} className="text-white" />}
+    </div>
   </div>
 );
 
@@ -18,6 +37,8 @@ const Dashboard = () => {
 
   const [activeTab, setActiveTab] = useState("OVERVIEW");
   const [user, setUser] = useState("");
+  const [sidebarOpen, setSidebarOpen] = useState(false);
+  const [hasPaid, setHasPaid] = useState(false);
 
   const [stats, setStats] = useState({
     total: 0,
@@ -56,7 +77,7 @@ const Dashboard = () => {
         }
 
         const response = await fetch(
-          "https://preethu17.pythonanywhere.com/api/dashboard/",
+          "http://127.0.0.1:8000/api/dashboard/",
           {
             headers: {
               Authorization: `Bearer ${token}`,
@@ -93,6 +114,35 @@ const Dashboard = () => {
     fetchDashboardData();
   }, [navigate]);
 
+  // ================= PAYMENT STATUS CHECK =================
+  useEffect(() => {
+    const checkPaymentStatus = async () => {
+      try {
+        const token = localStorage.getItem("access");
+        if (!token) return;
+
+        const response = await fetch(
+          "http://127.0.0.1:8000/api/payment/payments/",
+          {
+            headers: {
+              Authorization: `Bearer ${token}`,
+            },
+          }
+        );
+
+        if (response.ok) {
+          const data = await response.json();
+          const paid = Array.isArray(data) && data.some(p => p.status === 'PAID');
+          setHasPaid(paid);
+        }
+      } catch (error) {
+        console.log("Error checking payment status:", error);
+      }
+    };
+
+    checkPaymentStatus();
+  }, []);
+
   // ================= LOGOUT =================
   const handleLogout = () => {
     Swal.fire({
@@ -107,7 +157,7 @@ const Dashboard = () => {
       if (result.isConfirmed) {
         localStorage.removeItem("user");
         localStorage.removeItem("access");
-        navigate("/login");
+        navigate("/home");
       }
     });
   };
@@ -130,104 +180,200 @@ const Dashboard = () => {
     }
   };
 
+  // ================= SIDEBAR TABS =================
+  const sidebarTabs = [
+    { id: "OVERVIEW", name: "Overview", icon: BarChart3 },
+    { id: "REQUEST", name: "New Request", icon: PlusCircle },
+    { id: "HISTORY", name: "History", icon: HistoryIcon },
+    { id: "PAYMENT", name: "Payment", icon: CreditCard },
+  ];
+
+  if (hasPaid) {
+    sidebarTabs.push({ id: "FEEDBACK", name: "Feedback", icon: MessageSquare });
+  }
+
   return (
-    <div className="p-3 sm:p-6 bg-white text-black font-semibold min-h-screen overflow-x-hidden">
+    <div className="min-h-screen bg-slate-50 text-slate-900 font-semibold flex flex-col md:flex-row pt-16 md:pt-20 overflow-x-hidden">
+      
+      {/* Mobile Toggle Button */}
+      <button
+        onClick={() => setSidebarOpen(!sidebarOpen)}
+        className="md:hidden fixed top-18 left-4 z-50 bg-[#14532D] text-white p-3 rounded-full shadow-lg border border-white/20 hover:scale-105 active:scale-95 transition-transform"
+      >
+        {sidebarOpen ? <X size={20} /> : <Menu size={20} />}
+      </button>
+ 
+      {/* Sidebar Overlay on Mobile */}
+      {sidebarOpen && (
+        <div 
+          onClick={() => setSidebarOpen(false)}
+          className="md:hidden fixed inset-0 bg-black/50 z-30 transition-opacity"
+        />
+      )}
+ 
+      {/* Sidebar */}
+      <div
+        className={`fixed top-16 md:top-20 left-0 h-[calc(100vh-4rem)] md:h-[calc(100vh-5rem)] w-64 bg-[#113723] text-white z-40 flex flex-col justify-between border-r border-green-800 transition-transform duration-300 ease-in-out ${
+          sidebarOpen ? "translate-x-0" : "-translate-x-full md:translate-x-0"
+        }`}
+      >
+        {/* Navigation items */}
+        <div className="p-6 flex-1 flex flex-col gap-6 overflow-y-auto">
+          {/* User Section */}
+          <div className="border-b border-green-800 pb-4 mb-2">
+            <p className="text-xs text-white/60 font-bold tracking-wider uppercase">Welcome back,</p>
+            <h2 className="text-xl font-bold text-white truncate mt-1">
+              {user || "User"}
+            </h2>
+          </div>
 
-      {/* HEADER */}
-      <div className="flex flex-col lg:flex-row lg:justify-between lg:items-center gap-6 mb-10 mt-20">
-
-        <div>
-          <h1 className="text-2xl sm:text-3xl font-bold break-all">
-            Welcome, {user || "User"}
-          </h1>
+          {/* Navigation Links */}
+          <nav className="flex flex-col gap-2">
+            {sidebarTabs.map((tab) => {
+              const isActive = activeTab === tab.id;
+              const Icon = tab.icon;
+              return (
+                <button
+                  key={tab.id}
+                  onClick={() => {
+                    setActiveTab(tab.id);
+                    setSidebarOpen(false);
+                  }}
+                  className={`flex items-center gap-3 px-4 py-3 rounded-xl text-sm font-semibold transition-all duration-200 text-left ${
+                    isActive
+                      ? "bg-white text-[#14532D] shadow-md"
+                      : "text-white/80 hover:bg-white/10 hover:text-white"
+                  }`}
+                >
+                  <Icon size={18} />
+                  <span>{tab.name}</span>
+                </button>
+              );
+            })}
+          </nav>
         </div>
 
-        <div className="flex flex-wrap gap-3">
-          {["OVERVIEW", "REQUEST", "HISTORY", "PAYMENT", "FEEDBACK"].map(
-            (tab) => (
-              <button
-                key={tab}
-                onClick={() => setActiveTab(tab)}
-                className={`px-4 py-2 rounded-full text-sm sm:text-base transition-all duration-200 ${
-                  activeTab === tab
-                    ? "bg-[#D4AF37] text-[#14532D] shadow-lg"
-                    : "bg-[#D4AF37] text-[#14532D] opacity-80 hover:opacity-100"
-                }`}
-              >
-                {tab}
-              </button>
-            )
-          )}
+        {/* Support & Logout Section */}
+        <div className="p-6 border-t border-green-800 flex flex-col gap-3">
+          {/* Help Desk Link */}
+          <a
+            href="https://wa.me/919999999999?text=Hi%2C%20I%20need%20help%20with%20EcoCollect%20Waste%20Management%20service."
+            target="_blank"
+            rel="noopener noreferrer"
+            className="flex items-center justify-center gap-2 w-full bg-[#25D366] text-white py-2.5 px-4 rounded-xl text-sm font-bold shadow-lg shadow-[#25D366]/20 hover:bg-[#20ba5a] active:scale-[0.98] transition-all"
+          >
+            <PhoneCall size={18} />
+            <span>Help Desk</span>
+          </a>
 
+          {/* Logout Button */}
           <button
             onClick={handleLogout}
-            className="bg-[#D4AF37] text-[#14532D] px-4 py-2 rounded-full text-sm sm:text-base hover:opacity-95"
+            className="flex items-center justify-center gap-2 w-full bg-red-600 hover:bg-red-700 text-white py-2.5 px-4 rounded-xl text-sm font-bold shadow-lg shadow-red-600/20 active:scale-[0.98] transition-all"
           >
-            Logout
+            <LogOut size={18} />
+            <span>Logout</span>
           </button>
         </div>
       </div>
 
-      {/* OVERVIEW */}
-      {activeTab === "OVERVIEW" && (
-        <>
-          {/* STATS */}
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 mb-6">
-            <Card title="TOTAL" value={stats.total} />
-            <Card title="PENDING" value={stats.pending} />
-            <Card title="COMPLETED" value={stats.completed} />
-            <Card title="POINTS" value={stats.points} />
+      {/* Main Content Area */}
+      <div className="md:pl-64 flex-1 flex flex-col min-h-screen">
+        <div className="p-4 sm:p-8 flex-1 max-w-7xl w-full mx-auto">
+          
+          {/* Active Tab Screen Title */}
+          <div className="mb-6 flex justify-between items-center border-b border-gray-200 pb-4">
+            <h1 className="text-2xl font-bold tracking-tight text-slate-800 text-left pl-16 md:pl-0 w-full">
+              {activeTab === "OVERVIEW" ? "Dashboard Overview" : 
+               activeTab === "REQUEST" ? "New Request" : 
+               activeTab === "HISTORY" ? "Request History" : 
+               activeTab === "PAYMENT" ? "Payment History" : 
+               activeTab === "FEEDBACK" ? "Feedback Form" : ""}
+            </h1>
           </div>
 
-          {/* RECENT ACTIVITY */}
-          <div className="bg-[#D4AF37] p-4 rounded-xl w-full overflow-hidden">
-            <h2 className="mb-4 text-lg font-semibold">
-              Recent Activity
-            </h2>
-
-            {activities.length === 0 ? (
-              <p className="text-white">No activity found</p>
-            ) : (
-              <div className="space-y-3">
-                {activities.map((item, index) => (
-                  <div
-                    key={index}
-                    className="bg-[#14532D] p-3 rounded flex flex-col sm:flex-row sm:justify-between sm:items-center gap-3"
-                  >
-                    <div className="break-all">
-                      <h3 className="font-medium">
-                        {item.type || "Request"}
-                      </h3>
-
-                      <p className="text-[#D4AF37] text-sm">
-                        {item.date || ""}
-                      </p>
-                    </div>
-
-                    <span className="text-xs px-3 py-1 bg-[#D4AF37] text-[#14532D] rounded w-fit">
-                      {item.status || "PENDING"}
-                    </span>
-                  </div>
-                ))}
+          {/* OVERVIEW */}
+          {activeTab === "OVERVIEW" && (
+            <>
+              {/* STATS CARDS */}
+              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
+                <Card 
+                  title="TOTAL" 
+                  value={stats.total} 
+                  gradientClass="bg-gradient-to-br from-[#14532D] to-[#113723]" 
+                  icon={BarChart3} 
+                />
+                <Card 
+                  title="PENDING" 
+                  value={stats.pending} 
+                  gradientClass="bg-gradient-to-br from-[#14532D] to-[#113723]" 
+                  icon={Clock} 
+                />
+                <Card 
+                  title="COMPLETED" 
+                  value={stats.completed} 
+                  gradientClass="bg-gradient-to-br from-[#14532D] to-[#113723]" 
+                  icon={CheckCircle} 
+                />
+                <Card 
+                  title="POINTS" 
+                  value={stats.points} 
+                  gradientClass="bg-gradient-to-br from-[#14532D] to-[#113723]" 
+                  icon={Star} 
+                />
               </div>
-            )}
-          </div>
-        </>
-      )}
 
-      {activeTab === "REQUEST" && (
-        <Request addRequest={addRequest} />
-      )}
+              {/* RECENT ACTIVITY */}
+              <div className="bg-[#14532D] p-6 rounded-2xl w-full overflow-hidden shadow-xl">
+                <h2 className="mb-4 text-xl font-bold text-white">
+                  Recent Activity
+                </h2>
 
-      {activeTab === "HISTORY" && (
-        <History activities={activities} />
-      )}
+                {activities.length === 0 ? (
+                  <p className="text-white/80 py-4 text-center font-normal">No activity found</p>
+                ) : (
+                  <div className="space-y-3">
+                    {activities.map((item, index) => (
+                      <div
+                        key={index}
+                        className="bg-[#113723] p-4 rounded-xl flex flex-col sm:flex-row sm:justify-between sm:items-center gap-3 border border-white/10 hover:border-white/20 transition-all duration-200"
+                      >
+                        <div className="break-all">
+                          <h3 className="font-bold text-white text-lg">
+                            {item.type || "Request"}
+                          </h3>
 
-      {activeTab === "PAYMENT" && (
-        <Payment addPayment={addPayment} />
-      )}
+                          <p className="text-white/60 text-sm font-medium mt-1">
+                            {item.date || ""}
+                          </p>
+                        </div>
 
-      {activeTab === "FEEDBACK" && <Feedback />}
+                        <span className="text-xs font-bold px-3 py-1.5 bg-white text-[#14532D] rounded-lg w-fit shadow-md">
+                          {item.status || "PENDING"}
+                        </span>
+                      </div>
+                    ))}
+                  </div>
+                )}
+              </div>
+            </>
+          )}
+
+          {activeTab === "REQUEST" && (
+            <Request addRequest={addRequest} />
+          )}
+
+          {activeTab === "HISTORY" && (
+            <History activities={activities} />
+          )}
+
+          {activeTab === "PAYMENT" && (
+            <Payment addPayment={addPayment} />
+          )}
+
+          {activeTab === "FEEDBACK" && <Feedback />}
+        </div>
+      </div>
     </div>
   );
 };

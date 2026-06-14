@@ -17,7 +17,7 @@ const History = () => {
         setLoading(true);
 
         const response = await fetch(
-          "https://preethu17.pythonanywhere.com/api/history/",
+          "http://127.0.0.1:8000/api/history/",
         );
 
         const data = await response.json();
@@ -44,7 +44,7 @@ const History = () => {
 
   return (
 
-    <div className="p-3 sm:p-6 bg-white text-white min-h-screen">
+    <div className="p-3 sm:p-6 bg-slate-50 text-slate-900 min-h-screen">
 
       {/* NAVBAR / HEADER */}
       <div className="mb-6">
@@ -53,12 +53,12 @@ const History = () => {
       </div>
 
       {/* TABLE */}
-      <div className="bg-[#14532D] rounded-xl overflow-x-auto">
+      <div className="bg-[#14532D] rounded-xl overflow-x-auto shadow-md">
 
-        <table className="w-full min-w-700px text-left">
+        <table className="w-full min-w-[600px] text-left">
 
           {/* TABLE HEADER */}
-          <thead className="bg-[#14532D] text-[#D4AF37] text-xs sm:text-sm">
+          <thead className="bg-[#14532D] text-white font-bold text-xs sm:text-sm">
 
             <tr>
 
@@ -143,7 +143,7 @@ const History = () => {
                         item.status === "PAID"
                           ? "bg-green-600"
                           : item.status === "PENDING"
-                          ? "bg-yellow-600"
+                          ? "bg-orange-600"
                           : "bg-blue-600"
                       }`}
                     >

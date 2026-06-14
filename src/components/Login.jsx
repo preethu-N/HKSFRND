@@ -1,7 +1,7 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Link, useNavigate } from "react-router-dom";
 
-import { Toaster, toast } from "react-hot-toast";
+import Swal from "sweetalert2";
 
 import { Eye, EyeOff } from "lucide-react";
 
@@ -17,6 +17,28 @@ const Login = () => {
     email: "",
     password: "",
   });
+
+  // =========================
+  // AUTH REDIRECT ON MOUNT
+  // =========================
+  useEffect(() => {
+    const userStr = localStorage.getItem("user");
+    if (userStr) {
+      try {
+        const u = JSON.parse(userStr);
+        const role = (u.role || "").toLowerCase();
+        if (role === "staff") {
+          navigate("/staff");
+        } else if (role === "admin") {
+          navigate("/admindash");
+        } else {
+          navigate("/dashboard");
+        }
+      } catch (e) {
+        console.log(e);
+      }
+    }
+  }, [navigate]);
 
   // =========================
   // HANDLE INPUT
@@ -40,7 +62,12 @@ const Login = () => {
     // VALIDATION
     if (!form.email || !form.password) {
 
-      toast.error("Please fill all fields");
+      Swal.fire({
+        title: "Warning",
+        text: "Please fill all fields",
+        icon: "warning",
+        confirmButtonColor: "#14532D",
+      });
 
       return;
     }
@@ -50,7 +77,7 @@ const Login = () => {
       setLoading(true);
 
       const response = await fetch(
-        "https://preethu17.pythonanywhere.com/api/login/",
+        "http://127.0.0.1:8000/api/login/",
         {
           method: "POST",
 
@@ -72,9 +99,12 @@ const Login = () => {
       // ERROR
       if (!response.ok) {
 
-        toast.error(
-          data.error || "Invalid Credentials"
-        );
+        Swal.fire({
+          title: "Error",
+          text: data.error || "Invalid Credentials",
+          icon: "error",
+          confirmButtonColor: "#14532D",
+        });
 
         return;
       }
@@ -104,13 +134,18 @@ const Login = () => {
       }
 
       // SUCCESS MESSAGE
-      toast.success("Login is Successful");
+      Swal.fire({
+        title: "Success",
+        text: "Login is Successful",
+        icon: "success",
+        confirmButtonColor: "#14532D",
+      });
 
       // =========================
       // ROLE NAVIGATION
       // =========================
       const role =
-        data.user?.role?.toLowerCase();
+        (data.role || data.user?.role || "").toLowerCase();
 
       setTimeout(() => {
 
@@ -134,7 +169,12 @@ const Login = () => {
 
       console.log("Login Error:", error);
 
-      toast.error("Something went wrong");
+      Swal.fire({
+        title: "Error",
+        text: "Something went wrong",
+        icon: "error",
+        confirmButtonColor: "#14532D",
+      });
 
     } finally {
 
@@ -145,32 +185,20 @@ const Login = () => {
 
   return (
 
-    <div className="min-h-screen bg-[#F8FAF7] flex items-center justify-center px-4 text-[#D4AF37] border-2 border-green-900">
+    <div className="min-h-screen bg-[#F8FAF7] flex items-center justify-center px-4 text-[#14532D] border-2 border-green-900">
 
-      {/* TOASTER */}
-      <Toaster
-        position="top-center"
-        toastOptions={{
-          style: {
-            background: "#14532D",
-            color: "#D4AF37",
-            border: "2px solid #D4AF37",
-            borderRadius: "12px",
-            fontWeight: "bold",
-          },
-        }}
-      />
 
-      <div className="w-95 max-w-xl bg-[#14532D] border-2 border-[#D4AF37] rounded-3xl p-9 shadow-2xl">
+
+      <div className="w-full max-w-sm bg-white border-2 rounded-3xl p-6 sm:p-9 shadow-2xl">
 
         {/* HEADER */}
-        <h1 className="text-center font-bold text-4xl mb-2 border-[#D4AF37] border-b-2 pb-3">
+        <h1 className="text-center font-bold text-3xl mb-2 border-[#14532D] border-b-2 pb-3">
 
           Account Login
 
         </h1>
 
-        <p className="text-center text-white mb-7">
+        <p className="text-center text-gray-500 mb-2">
 
           Enter your credentials to access your dashboard
 
@@ -185,18 +213,18 @@ const Login = () => {
           {/* EMAIL */}
           <div className="mb-6">
 
-            <label className="block text-sm text-[#D4AF37] font-bold mb-2">
+            <label className="block text-sm text-[#14532D] font-bold mb-2">
 
-              EMAIL
+              Email or Username
 
             </label>
 
             <input
-              type="email"
+              type="text"
               name="email"
               value={form.email}
               onChange={handleChange}
-              placeholder="Enter Email"
+              placeholder="Enter Email or Username"
               className="w-full px-5 py-3 rounded-xl bg-white border border-gray-800 text-black focus:border-green-500 outline-none"
             />
 
@@ -205,9 +233,9 @@ const Login = () => {
           {/* PASSWORD */}
           <div className="mb-8">
 
-            <label className="block text-sm text-[#D4AF37] font-bold mb-2">
+            <label className="block text-sm text-[#14532D] font-bold mb-2">
 
-              PASSWORD
+              Password
 
             </label>
 
@@ -253,30 +281,17 @@ const Login = () => {
           <button
             type="submit"
             disabled={loading}
-            className="w-full bg-[#D4AF37] hover:bg-[#14532D] text-[#14532D] hover:text-[#D4AF37] font-extrabold py-3 rounded-xl border-2 border-emerald-900"
+            className="w-full bg-[#14532D] hover:bg-green-500 text-white hover:text-[#14532D] font-extrabold py-3 text-xl rounded-xl border-2 border-emerald-900"
           >
 
             {loading
               ? "Logging in..."
-              : "LOGIN"}
+              : "Login"}
 
           </button>
 
           {/* REGISTER */}
-          <p className="text-center mt-3">
-
-            Don't have an account?{" "}
-
-            <Link
-              to="/sign"
-              className="text-[#D4AF37] font-bold hover:underline"
-            >
-
-              Register here
-
-            </Link>
-
-          </p>
+          
 
         </form>
 

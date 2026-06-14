@@ -1,11 +1,11 @@
 import React, { useState, useEffect } from "react";
 import img from "../images/leaf.png";
-import { Link } from "react-router-dom";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate, useLocation } from "react-router-dom";
 import Swal from "sweetalert2";
 
 const Navbar = () => {
   const navigate = useNavigate();
+  const location = useLocation();
 
   useEffect(() => {
     const storedUser = localStorage.getItem("user");
@@ -16,12 +16,39 @@ const Navbar = () => {
   }, []);
 
   const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const [isAdmin, setIsAdmin] = useState(false);
   const [menuOpen, setMenuOpen] = useState(false);
+  const [isTransparent, setIsTransparent] = useState(false);
 
   useEffect(() => {
-    const user = localStorage.getItem("user");
-    setIsLoggedIn(!!user);
-  }, []);
+    const userStr = localStorage.getItem("user");
+    setIsLoggedIn(!!userStr);
+    if (userStr) {
+      try {
+        const u = JSON.parse(userStr);
+        setIsAdmin((u.role || "").toLowerCase() === "admin");
+      } catch (e) {
+        setIsAdmin(false);
+      }
+    } else {
+      setIsAdmin(false);
+    }
+  }, [location.pathname]);
+
+  useEffect(() => {
+    const handleScroll = () => {
+      const isHome = location.pathname === "/home" || location.pathname === "/";
+      if (isHome && window.scrollY < 50) {
+        setIsTransparent(true);
+      } else {
+        setIsTransparent(false);
+      }
+    };
+
+    handleScroll();
+    window.addEventListener("scroll", handleScroll);
+    return () => window.removeEventListener("scroll", handleScroll);
+  }, [location.pathname]);
 
   const handleLogout = () => {
     Swal.fire({
@@ -37,73 +64,91 @@ const Navbar = () => {
         localStorage.removeItem("user");
         localStorage.removeItem("access");
         setIsLoggedIn(false);
-        navigate("/login");
+        setMenuOpen(false);
+        navigate("/home");
       }
     });
   };
 
-  return (
-    <nav className="fixed top-0 left-0 w-full z-50 px-4 md:px-8 py-4 bg-[#14532D] border-b border-yellow-300 text-white shadow-lg shadow-black/50">
+  const getDashboardPath = () => {
+    const userStr = localStorage.getItem("user");
+    if (!userStr) return "/dashboard";
+    try {
+      const u = JSON.parse(userStr);
+      const role = (u.role || "").toLowerCase();
+      if (role === "staff") return "/staff";
+      if (role === "admin") return "/admindash";
+    } catch (e) {
+      console.log(e);
+    }
+    return "/dashboard";
+  };
 
-      <div className="flex items-center justify-between">
+  return (
+    <nav className={`fixed top-0 left-0 w-full z-50 transition-all duration-300 ${
+      isTransparent
+        ? "bg-transparent border-b border-transparent text-white"
+        : "bg-white border-b border-green-300 text-black shadow-lg shadow-black/50"
+    }`}>
+
+      <div className="h-16 md:h-20 px-4 md:px-8 flex items-center justify-between w-full">
 
         {/* Logo */}
-        <div className="flex items-center">
-          <img  className="w-16 md:w-28 h-auto block opacity-80" src={img}  alt="Logo" />
+        <div className="flex items-center gap-1">
+          <img  className="w-12 md:w-16 h-auto block opacity-90 -mr-2 md:-mr-3" src={img}  alt="Logo" />
 
-          <h1 className="text-[#D4AF37] text-xl md:text-3xl font-bold font-[Outfit]">
-            ECO<span className="text-white">COLLECT</span>
+          <h1 className="text-xl md:text-3xl font-bold font-[Outfit] tracking-tight">
+            <span className={isTransparent ? "text-white" : "text-black"}>ECO</span>
+            <span className={isTransparent ? "text-green-400" : "text-[#14532D]"}>COLLECT</span>
           </h1>
         </div>
 
-        {/* Mobile Menu Button */}
-        <button
-          className="md:hidden text-white text-3xl"
-          onClick={() => setMenuOpen(!menuOpen)}
-        >
-          ☰
-        </button>
+        {/* Mobile Navigation Area */}
+        <div className="md:hidden flex items-center gap-4">
+          <button
+            className={`text-3xl ${isTransparent ? "text-white" : "text-black"}`}
+            onClick={() => setMenuOpen(!menuOpen)}
+          >
+            ☰
+          </button>
+        </div>
 
         {/* Desktop Menu */}
         <div className="hidden md:flex items-center gap-8">
 
           <Link
             to="/"
-            className="text-[#D4AF37] hover:text-green-400 font-bold transition"
+            className={`font-bold transition ${
+              isTransparent
+                ? "text-white hover:text-green-400"
+                : "text-black hover:text-green-400"
+            }`}
           >
-            HOME
+            Home
           </Link>
 
           {isLoggedIn ? (
             <>
               <Link
-                to="/dashboard"
-                className="text-[#D4AF37] hover:text-green-400 font-bold transition"
+                to={getDashboardPath()}
+                className={`font-bold transition ${
+                  isTransparent
+                    ? "text-white hover:text-green-400"
+                    : "text-black hover:text-green-400"
+                }`}
               >
-                DASHBOARD
+                Dashboard
               </Link>
-
-              <button
-                onClick={handleLogout}
-                className="px-5 py-2 rounded-full text-[#D4AF37] hover:text-red-600 font-bold transition"
-              >
-                LOGOUT
-              </button>
             </>
           ) : (
             <>
-              <Link
-                to="/login"
-                className="text-[#D4AF37] hover:text-green-400 font-bold transition"
-              >
-                LOGIN
-              </Link>
+            
 
               <Link
                 to="/sign"
-                className="bg-[#D4AF37] text-[#14532D] px-5 py-2 rounded-full font-bold hover:bg-[#14532D] hover:text-[#D4AF37] transition"
+                className="bg-[#14532D] text-white px-5 py-2 rounded-full font-bold hover:bg-[#14532D] hover:text-green-300 transition"
               >
-                JOIN NOW
+                Join Now
               </Link>
             </>
           )}
@@ -112,11 +157,11 @@ const Navbar = () => {
 
       {/* Mobile Menu */}
       {menuOpen && (
-        <div className="md:hidden flex flex-col gap-4 mt-4 bg-black p-4 rounded-xl">
+        <div className="md:hidden flex flex-col gap-4 bg-[#113723] text-white p-5 border-t border-green-800/50 shadow-inner">
 
           <Link
             to="/"
-            className="text-[#D4AF37] hover:text-green-400 transition"
+            className="text-white hover:text-green-400 font-bold transition text-sm tracking-wide uppercase"
             onClick={() => setMenuOpen(false)}
           >
             HOME
@@ -125,28 +170,18 @@ const Navbar = () => {
           {isLoggedIn ? (
             <>
               <Link
-                to="/dashboard"
-                className="text-[#D4AF37] hover:text-green-400 transition"
+                to={getDashboardPath()}
+                className="text-white hover:text-green-400 font-bold transition text-sm tracking-wide uppercase"
                 onClick={() => setMenuOpen(false)}
               >
                 DASHBOARD
               </Link>
-
-              <button
-                onClick={() => {
-                  handleLogout();
-                  setMenuOpen(false);
-                }}
-                className="text-left text-[#D4AF37] hover:text-red-600 transition"
-              >
-                LOGOUT
-              </button>
             </>
           ) : (
             <>
               <Link
                 to="/login"
-                className="text-[#D4AF37] hover:text-green-400 transition"
+                className="text-white hover:text-green-400 font-bold transition text-sm tracking-wide uppercase"
                 onClick={() => setMenuOpen(false)}
               >
                 LOGIN
@@ -154,7 +189,7 @@ const Navbar = () => {
 
               <Link
                 to="/sign"
-                className="bg-[#D4AF37] text-[#14532D] px-5 py-2 rounded-ful font-semibold hover:bg-[#14532D] hover:text-[#D4AF37] transition text-center"
+                className="bg-white text-[#14532D] px-5 py-2 rounded-full font-extrabold hover:bg-green-100 transition text-center text-sm"
                 onClick={() => setMenuOpen(false)}
               >
                 JOIN NOW
