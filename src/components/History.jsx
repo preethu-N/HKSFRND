@@ -17,7 +17,7 @@ const History = () => {
         setLoading(true);
 
         const response = await fetch(
-          "http://127.0.0.1:8000/api/history/",
+          "https://preethu17.pythonanywhere.com/api/history/",
         );
 
         const data = await response.json();

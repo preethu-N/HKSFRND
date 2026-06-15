@@ -33,7 +33,7 @@ const Home = () => {
   useEffect(() => {
 
     axios
-      .get("http://127.0.0.1:8000/api/home/")
+      .get("https://preethu17.pythonanywhere.com/api/home/")
       .then((res) => {
 
         console.log(res.data);

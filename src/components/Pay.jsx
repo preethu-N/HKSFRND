@@ -57,7 +57,7 @@ const Pay = () => {
       // SAVE TO DJANGO
       // =========================
       const response = await fetch(
-        "http://127.0.0.1:8000/api/payment/payments/",
+        "https://preethu17.pythonanywhere.com/api/payment/payments/",
         {
           method: "POST",
           headers: {

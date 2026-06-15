@@ -34,7 +34,7 @@ const StaffDashboard = () => {
     try {
       setLoadingLeaves(true);
       const token = localStorage.getItem("access");
-      const res = await fetch("http://127.0.0.1:8000/api/staff/leave/my-requests/", {
+      const res = await fetch("https://preethu17.pythonanywhere.com/api/staff/leave/my-requests/", {
         headers: {
           Authorization: `Bearer ${token}`,
         },
@@ -65,7 +65,7 @@ const StaffDashboard = () => {
     try {
       setSubmittingLeave(true);
       const token = localStorage.getItem("access");
-      const res = await fetch("http://127.0.0.1:8000/api/staff/leave/request/", {
+      const res = await fetch("https://preethu17.pythonanywhere.com/api/staff/leave/request/", {
         method: "POST",
         headers: {
           Authorization: `Bearer ${token}`,
@@ -103,7 +103,7 @@ const StaffDashboard = () => {
     }
   };
 
-  const API_BASE = "http://127.0.0.1:8000/api/staff/";
+  const API_BASE = "https://preethu17.pythonanywhere.com/api/staff/";
 
   // =========================
   // AUTH CHECK
@@ -136,7 +136,7 @@ const StaffDashboard = () => {
       let sessionId = localStorage.getItem("staff_session_id");
       if (!sessionId) {
         try {
-          const res = await fetch("http://127.0.0.1:8000/api/tracking/sessions/start/", {
+          const res = await fetch("https://preethu17.pythonanywhere.com/api/tracking/sessions/start/", {
             method: "POST",
             headers: {
               "Authorization": `Bearer ${token}`,
@@ -157,7 +157,7 @@ const StaffDashboard = () => {
         // Setup 30s ping
         intervalId = setInterval(async () => {
           try {
-            await fetch("http://127.0.0.1:8000/api/tracking/sessions/ping/", {
+            await fetch("https://preethu17.pythonanywhere.com/api/tracking/sessions/ping/", {
               method: "POST",
               headers: {
                 "Authorization": `Bearer ${token}`,
@@ -292,7 +292,7 @@ const StaffDashboard = () => {
         const token = localStorage.getItem("access");
         if (sessionId && token) {
           try {
-            await fetch("http://127.0.0.1:8000/api/tracking/sessions/end/", {
+            await fetch("https://preethu17.pythonanywhere.com/api/tracking/sessions/end/", {
               method: "POST",
               headers: {
                 "Authorization": `Bearer ${token}`,

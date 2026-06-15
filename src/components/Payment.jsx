@@ -8,7 +8,7 @@ const Payment = () => {
     const fetchPayments = async () => {
       try {
         const token = localStorage.getItem("access");
-        const response = await fetch("http://127.0.0.1:8000/api/payment/payments/", {
+        const response = await fetch("https://preethu17.pythonanywhere.com/api/payment/payments/", {
           headers: {
             Authorization: `Bearer ${token}`
           }

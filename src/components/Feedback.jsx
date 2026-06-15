@@ -28,7 +28,7 @@ const Feedback = () => {
       }
 
       const response = await fetch(
-        "http://127.0.0.1:8000/api/feedback/feedbacks/",
+        "https://preethu17.pythonanywhere.com/api/feedback/feedbacks/",
         {
           method: "POST",
 

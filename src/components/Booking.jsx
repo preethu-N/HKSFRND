@@ -6,9 +6,10 @@ const Booking = () => {
   const [bookings, setBookings] = useState([]);
   const [loading, setLoading] = useState(true);
 
-  const API = "http://127.0.0.1:8000/api/booking";
-const ADMIN_API = "http://127.0.0.1:8000/api/adminpanel";
-  const token = localStorage.getItem("access");
+ const API = "https://preethu17.pythonanywhere.com/api/booking";
+const ADMIN_API = "https://preethu17.pythonanywhere.com/api/adminpanel";
+
+const token = localStorage.getItem("access");
 
   // ---------------- FETCH ----------------
   useEffect(() => {

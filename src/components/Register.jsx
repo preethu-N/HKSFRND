@@ -80,7 +80,7 @@ const Register = () => {
       setLoading(true);
 
       const response = await axios.post(
-        "http://127.0.0.1:8000/api/register/",
+        "https://preethu17.pythonanywhere.com/api/register/",
         {
           name: form.name,
           email: form.email,

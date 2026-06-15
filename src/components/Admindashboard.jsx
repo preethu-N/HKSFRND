@@ -9,7 +9,7 @@ const AdminDashboard = () => {
   const [search, setSearch] = useState("");
 
   // ✅ FIX 1: REMOVE EXTRA /notifications/
-  const API = "http://127.0.0.1:8000/api/adminpanel/";
+  const API = "https://preethu17.pythonanywhere.com/api/adminpanel";
 
   // ✅ FIX 2: TOKEN FROM access (NOT user.token)
   const token = localStorage.getItem("access");
@@ -34,7 +34,7 @@ const AdminDashboard = () => {
 
   const fetchStaffReport = () => {
     setLoadingStaffReport(true);
-    fetch("http://127.0.0.1:8000/api/tracking/sessions/admin_report/", {
+    fetch("https://preethu17.pythonanywhere.com/api/tracking/sessions/admin_report/", {
       headers: {
         Authorization: `Bearer ${token}`,
       },
@@ -71,7 +71,7 @@ const AdminDashboard = () => {
   // ---------------- FETCH LEAVES ----------------
   const fetchLeaves = () => {
     setLoadingLeaves(true);
-    fetch("http://127.0.0.1:8000/api/staff/leave/list/", {
+    fetch("https://preethu17.pythonanywhere.com/api/staff/leave/list/", {
       headers: {
         Authorization: `Bearer ${token}`,
       },
@@ -179,7 +179,7 @@ const AdminDashboard = () => {
 
   // ---------------- LEAVE ACTIONS ----------------
   const approveLeave = (id) => {
-    fetch(`http://127.0.0.1:8000/api/staff/leave/${id}/approve/`, {
+    fetch(`https://preethu17.pythonanywhere.com/api/staff/leave/${id}/approve/`, {
       method: "PATCH",
       headers: {
         Authorization: `Bearer ${token}`,
@@ -209,7 +209,7 @@ const AdminDashboard = () => {
   };
 
   const rejectLeave = (id) => {
-    fetch(`http://127.0.0.1:8000/api/staff/leave/${id}/reject/`, {
+    fetch(`https://preethu17.pythonanywhere.com/api/staff/leave/${id}/reject/`, {
       method: "PATCH",
       headers: {
         Authorization: `Bearer ${token}`,

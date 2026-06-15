@@ -14,10 +14,16 @@ const Complaint = () => {
 
       setLoading(true);
 
-      const response = await fetch(
-        "http://127.0.0.1:8000/api/complaint/"
-      );
+      const token = localStorage.getItem("access");
 
+      const response = await fetch(
+        "https://preethu17.pythonanywhere.com/api/adminpanel/complaints/",
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
       const data = await response.json();
 
       setComplaints(data);
@@ -40,10 +46,14 @@ const Complaint = () => {
 
     try {
 
+      const token = localStorage.getItem("access");
       await fetch(
-        `http://127.0.0.1:8000/api/complaints/${id}/resolve`,
+        `https://preethu17.pythonanywhere.com/api/adminpanel/complaints/${id}/resolve/`,
         {
-          method: "PUT",
+          method: "PATCH",
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
         }
       );
 
@@ -69,10 +79,14 @@ const Complaint = () => {
 
     try {
 
+      const token = localStorage.getItem("access");
       await fetch(
-        `http://127.0.0.1:8000/api/complaints/${id}`,
+        `https://preethu17.pythonanywhere.com/api/adminpanel/complaints/${id}/`,
         {
           method: "DELETE",
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
         }
       );
 
@@ -145,11 +159,10 @@ const Complaint = () => {
             <div>
 
               <span
-                className={`px-4 py-2 rounded-xl text-sm font-semibold ${
-                  complaint.status === "resolved"
+                className={`px-4 py-2 rounded-xl text-sm font-semibold ${complaint.status === "resolved"
                     ? "bg-green-900 text-green-300"
                     : "bg-yellow-900 text-yellow-300"
-                }`}
+                  }`}
               >
                 {complaint.status}
               </span>

@@ -5,14 +5,14 @@ import Feedback from "./Feedback";
 import History from "./History";
 import { useNavigate } from "react-router-dom";
 import Swal from "sweetalert2";
-import { 
-  BarChart3, 
-  PlusCircle, 
-  History as HistoryIcon, 
-  CreditCard, 
-  MessageSquare, 
-  LogOut, 
-  Menu, 
+import {
+  BarChart3,
+  PlusCircle,
+  History as HistoryIcon,
+  CreditCard,
+  MessageSquare,
+  LogOut,
+  Menu,
   X,
   PhoneCall,
   Clock,
@@ -76,8 +76,10 @@ const Dashboard = () => {
           return;
         }
 
+        const BASE_URL = "https://preethu17.pythonanywhere.com";
+
         const response = await fetch(
-          "http://127.0.0.1:8000/api/dashboard/",
+          `${BASE_URL}/api/dasboardwaste/`,
           {
             headers: {
               Authorization: `Bearer ${token}`,
@@ -122,7 +124,7 @@ const Dashboard = () => {
         if (!token) return;
 
         const response = await fetch(
-          "http://127.0.0.1:8000/api/payment/payments/",
+          "https://preethu17.pythonanywhere.com/api/payment/payments/",
           {
             headers: {
               Authorization: `Bearer ${token}`,
@@ -194,7 +196,7 @@ const Dashboard = () => {
 
   return (
     <div className="min-h-screen bg-slate-50 text-slate-900 font-semibold flex flex-col md:flex-row pt-16 md:pt-20 overflow-x-hidden">
-      
+
       {/* Mobile Toggle Button */}
       <button
         onClick={() => setSidebarOpen(!sidebarOpen)}
@@ -202,20 +204,19 @@ const Dashboard = () => {
       >
         {sidebarOpen ? <X size={20} /> : <Menu size={20} />}
       </button>
- 
+
       {/* Sidebar Overlay on Mobile */}
       {sidebarOpen && (
-        <div 
+        <div
           onClick={() => setSidebarOpen(false)}
           className="md:hidden fixed inset-0 bg-black/50 z-30 transition-opacity"
         />
       )}
- 
+
       {/* Sidebar */}
       <div
-        className={`fixed top-16 md:top-20 left-0 h-[calc(100vh-4rem)] md:h-[calc(100vh-5rem)] w-64 bg-[#113723] text-white z-40 flex flex-col justify-between border-r border-green-800 transition-transform duration-300 ease-in-out ${
-          sidebarOpen ? "translate-x-0" : "-translate-x-full md:translate-x-0"
-        }`}
+        className={`fixed top-16 md:top-20 left-0 h-[calc(100vh-4rem)] md:h-[calc(100vh-5rem)] w-64 bg-[#113723] text-white z-40 flex flex-col justify-between border-r border-green-800 transition-transform duration-300 ease-in-out ${sidebarOpen ? "translate-x-0" : "-translate-x-full md:translate-x-0"
+          }`}
       >
         {/* Navigation items */}
         <div className="p-6 flex-1 flex flex-col gap-6 overflow-y-auto">
@@ -239,11 +240,10 @@ const Dashboard = () => {
                     setActiveTab(tab.id);
                     setSidebarOpen(false);
                   }}
-                  className={`flex items-center gap-3 px-4 py-3 rounded-xl text-sm font-semibold transition-all duration-200 text-left ${
-                    isActive
+                  className={`flex items-center gap-3 px-4 py-3 rounded-xl text-sm font-semibold transition-all duration-200 text-left ${isActive
                       ? "bg-white text-[#14532D] shadow-md"
                       : "text-white/80 hover:bg-white/10 hover:text-white"
-                  }`}
+                    }`}
                 >
                   <Icon size={18} />
                   <span>{tab.name}</span>
@@ -280,15 +280,15 @@ const Dashboard = () => {
       {/* Main Content Area */}
       <div className="md:pl-64 flex-1 flex flex-col min-h-screen">
         <div className="p-4 sm:p-8 flex-1 max-w-7xl w-full mx-auto">
-          
+
           {/* Active Tab Screen Title */}
           <div className="mb-6 flex justify-between items-center border-b border-gray-200 pb-4">
             <h1 className="text-2xl font-bold tracking-tight text-slate-800 text-left pl-16 md:pl-0 w-full">
-              {activeTab === "OVERVIEW" ? "Dashboard Overview" : 
-               activeTab === "REQUEST" ? "New Request" : 
-               activeTab === "HISTORY" ? "Request History" : 
-               activeTab === "PAYMENT" ? "Payment History" : 
-               activeTab === "FEEDBACK" ? "Feedback Form" : ""}
+              {activeTab === "OVERVIEW" ? "Dashboard Overview" :
+                activeTab === "REQUEST" ? "New Request" :
+                  activeTab === "HISTORY" ? "Request History" :
+                    activeTab === "PAYMENT" ? "Payment History" :
+                      activeTab === "FEEDBACK" ? "Feedback Form" : ""}
             </h1>
           </div>
 
@@ -297,29 +297,29 @@ const Dashboard = () => {
             <>
               {/* STATS CARDS */}
               <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
-                <Card 
-                  title="TOTAL" 
-                  value={stats.total} 
-                  gradientClass="bg-gradient-to-br from-[#14532D] to-[#113723]" 
-                  icon={BarChart3} 
+                <Card
+                  title="TOTAL"
+                  value={stats.total}
+                  gradientClass="bg-gradient-to-br from-[#14532D] to-[#113723]"
+                  icon={BarChart3}
                 />
-                <Card 
-                  title="PENDING" 
-                  value={stats.pending} 
-                  gradientClass="bg-gradient-to-br from-[#14532D] to-[#113723]" 
-                  icon={Clock} 
+                <Card
+                  title="PENDING"
+                  value={stats.pending}
+                  gradientClass="bg-gradient-to-br from-[#14532D] to-[#113723]"
+                  icon={Clock}
                 />
-                <Card 
-                  title="COMPLETED" 
-                  value={stats.completed} 
-                  gradientClass="bg-gradient-to-br from-[#14532D] to-[#113723]" 
-                  icon={CheckCircle} 
+                <Card
+                  title="COMPLETED"
+                  value={stats.completed}
+                  gradientClass="bg-gradient-to-br from-[#14532D] to-[#113723]"
+                  icon={CheckCircle}
                 />
-                <Card 
-                  title="POINTS" 
-                  value={stats.points} 
-                  gradientClass="bg-gradient-to-br from-[#14532D] to-[#113723]" 
-                  icon={Star} 
+                <Card
+                  title="POINTS"
+                  value={stats.points}
+                  gradientClass="bg-gradient-to-br from-[#14532D] to-[#113723]"
+                  icon={Star}
                 />
               </div>
 

@@ -78,7 +78,7 @@ const Request = ({ addRequest }) => {
       // =========================
       const token = localStorage.getItem("access");
       const response = await fetch(
-        "http://127.0.0.1:8000/api/request/",
+        "https://preethu17.pythonanywhere.com/api/request/requests/",
         {
           method: "POST",
 
